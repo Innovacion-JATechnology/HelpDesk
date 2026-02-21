@@ -38,7 +38,7 @@
                             <div class="col-md-4">
                                 <label>Nombre(s)</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox3"
+                                    <asp:TextBox CssClass="form-control" ID="nombre"
                                         runat="server" placeholder="Nombre(s)"></asp:TextBox>
                                 </div>
                             </div>
@@ -46,15 +46,15 @@
                             <div class="col-md-4">
                                 <label>Apellido Paterno</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox4"
-                                        runat="server" placeholder="Apellido Paterno"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="paterno"
+                                        runat="server" placeholder="Apellido Paterno" OnTextChanged="Paterno_TextChanged"></asp:TextBox>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <label>Apellido Materno</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox9"
+                                    <asp:TextBox CssClass="form-control" ID="materno"
                                         runat="server" placeholder="Apellido Materno"></asp:TextBox>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                 <label>Correo-e</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox5"
+                                    <asp:TextBox CssClass="form-control" ID="correo"
                                         runat="server" placeholder="Correo-e" TextMode="Email"></asp:TextBox>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <label>Numero de Contacto</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox6"
+                                    <asp:TextBox CssClass="form-control" ID="contacto"
                                         runat="server" placeholder="Número de Contacto" TextMode="Phone"></asp:TextBox>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                             <div class="col-md-4">
                                 <label>Empresa</label>
                                 <div class="form-group">
-                                    <asp:DropDownList class="form-control" ID="DropDownList1" runat="server">
+                                    <asp:DropDownList class="form-control" ID="listaempresa" runat="server">
                                         <asp:ListItem Text="Select" Value="Select" />
                                         <asp:ListItem Text="Cepesmar" Value="Cepesmar" />
                                         <asp:ListItem Text="JA Technology" Value="JA Technology" />
@@ -96,7 +96,7 @@
                             <div class="col-md-6">
                                 <label>Puesto</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox8"
+                                    <asp:TextBox CssClass="form-control" ID="puesto"
                                         runat="server" placeholder="Puesto"></asp:TextBox>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                             <div class="col-md-2">
                                 <label>SLA</label>
                                 <div class="form-group">
-                                    <asp:DropDownList class="form-control" ID="DropDownList2" runat="server">
+                                    <asp:DropDownList class="form-control" ID="listaSla" runat="server">
 
                                         <asp:ListItem Text="1" Value="1" />
                                         <asp:ListItem Text="2" Value="2" />
@@ -128,21 +128,21 @@
                             <div class="col-md-6">
                                 <label>ID</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox1"
+                                    <asp:TextBox CssClass="form-control" ID="id"
                                         runat="server" placeholder="ID"></asp:TextBox>
                                 </div>
                                 </div>
                             <div class="col-md-6">
                                 <label>Contraseña</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2"
+                                    <asp:TextBox CssClass="form-control" ID="contrasena"
                                         runat="server" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="form-group">
-                                    <asp:Button ID="Button1"
+                                    <asp:Button ID="continuar"
                                         runat="server"
                                         Text="Continuar"
                                         CssClass="btn btn-primary btn-block btn-lg btn-2b399b" OnClick="Button1_Click" />
