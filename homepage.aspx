@@ -10,18 +10,15 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-12">
-                    <center>
-                    <h2> Soporte</h2>
-                    <p><b> </b></p>                        
-                    </center>
+                <div class="col-12"> 
+                    <br> </br> 
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
                     <center>
-                        <img width="200px" src="imgs/levanta.png" />
+                        <img height="200px" src="imgs/levanta.png" />
                             <h4> Crear Ticket</h4>
                         <p class="text-center">
                            Click para crear tickets para el area de soporte.
@@ -31,7 +28,7 @@
              
                 <div class="col-md-4">
                     <center>
-                        <img width="222px" src="imgs/ticket.png" />
+                        <img height="200px" src="imgs/ticket.png" />
                         <h4>Mis Tickets</h4>
                         <p class="text-center">
                             Click para ver historial de tickets.
@@ -41,7 +38,7 @@
 
                 <div class="col-md-4">
                     <center>
-                        <img width="200px" src="imgs/preferencias.png" />
+                        <img height="200px" src="imgs/preferencias.png" />
                         <h4>Preferencias</h4>
                         <p class="text-center">
                             Preferencias de la aplicación

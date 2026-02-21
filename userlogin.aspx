@@ -58,7 +58,7 @@
 
 
                             <div class="form-group">
-                                <a href="usersignup.aspx">    <input class="id=btn btn-secondary btn-block btn-lg" ="Button2"  type="button" value="Registro" />
+                                <a href="usersignup.aspx">    <input class="id=btn btn-secondary btn-block btn-lg" ="Button2"  type="button" value="Registrarme" />
                             </div>
                         </div>
                     </div>
