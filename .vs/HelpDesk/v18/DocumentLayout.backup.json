@@ -3,8 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\adminalltickets.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:adminalltickets.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\homepage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:homepage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\site1.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:site1.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\usersignup.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:usersignup.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\usersignup.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:usersignup.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:site1.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|c:\\users\\cepesmar\\desktop\\jatechnology\\proyecto helpdesk\\helpdesk\\helpdesk\\userprofile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{659FF5A0-F9BD-4779-AED2-91D0A2F2977F}|HelpDesk.csproj|solutionrelative:userprofile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,15 +70,93 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Web.config",
+              "RelativeDocumentMoniker": "Web.config",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Web.config",
+              "RelativeToolTip": "Web.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2026-02-20T23:59:26.943Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "usersignup.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\usersignup.aspx.cs",
+              "RelativeDocumentMoniker": "usersignup.aspx.cs",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\usersignup.aspx.cs",
+              "RelativeToolTip": "usersignup.aspx.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAIwAwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T23:56:52.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "adminAllTickets.aspx",
-              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\adminAllTickets.aspx",
-              "RelativeDocumentMoniker": "adminAllTickets.aspx",
-              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\adminAllTickets.aspx",
-              "RelativeToolTip": "adminAllTickets.aspx",
+              "Title": "homepage.aspx",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\homepage.aspx",
+              "RelativeDocumentMoniker": "homepage.aspx",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\homepage.aspx",
+              "RelativeToolTip": "homepage.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2026-02-18T18:10:42.607Z",
+              "WhenOpened": "2026-02-18T22:03:17.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Site1.Master",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Site1.Master",
+              "RelativeDocumentMoniker": "Site1.Master",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Site1.Master",
+              "RelativeToolTip": "Site1.Master",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-02-20T18:45:32.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Site1.Master.cs",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Site1.Master.cs",
+              "RelativeDocumentMoniker": "Site1.Master.cs",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\Site1.Master.cs",
+              "RelativeToolTip": "Site1.Master.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowBkAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-20T18:23:13.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "usersignup.aspx",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\usersignup.aspx",
+              "RelativeDocumentMoniker": "usersignup.aspx",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\usersignup.aspx",
+              "RelativeToolTip": "usersignup.aspx",
+              "LogicalView": "7651a702-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-02-20T23:56:03.243Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "userprofile.aspx",
+              "DocumentMoniker": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\userprofile.aspx",
+              "RelativeDocumentMoniker": "userprofile.aspx",
+              "ToolTip": "C:\\Users\\cepesmar\\Desktop\\JATechnology\\Proyecto HelpDesk\\HelpDesk\\HelpDesk\\userprofile.aspx",
+              "RelativeToolTip": "userprofile.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2026-02-20T18:47:55.947Z",
               "EditorCaption": ""
             }
           ]

@@ -145,7 +145,7 @@
                                     <asp:Button ID="Button1"
                                         runat="server"
                                         Text="Continuar"
-                                        CssClass="btn btn-primary btn-block btn-lg btn-2b399b" />
+                                        CssClass="btn btn-primary btn-block btn-lg btn-2b399b" OnClick="Button1_Click" />
                                 </div>
                             </div>
 

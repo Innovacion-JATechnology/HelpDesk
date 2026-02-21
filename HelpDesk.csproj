@@ -81,19 +81,24 @@
     <Content Include="imgs\admin.png" />
     <Content Include="imgs\barra.png" />
     <Content Include="imgs\allTickets.png" />
+    <Content Include="imgs\levanta.png" />
+    <Content Include="imgs\ticket.png" />
+    <Content Include="imgs\getsitelogo.png" />
     <Content Include="imgs\mistickets.png" />
     <Content Include="imgs\allUsers.png" />
     <Content Include="imgs\usuario.png" />
-    <Content Include="imgs\ticket.png" />
     <Content Include="imgs\logoJATechnology.png" />
     <Content Include="imgs\preferencias.png" />
-    <Content Include="imgs\levanta.png" />
+    <Content Include="imgs\working.png" />
     <Content Include="Properties\admin.png" />
     <Content Include="userlogin.aspx" />
     <Content Include="userprofile.aspx" />
     <Content Include="usersignup.aspx" />
     <Content Include="Web.config" />
-    <Content Include="WebForm1.aspx" />
+    <Content Include="crearTicket.aspx" />
+    <Content Include="enConstruccion.aspx" />
+    <Content Include="Preferencias.aspx" />
+    <Content Include="acercaDe.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adminAllTickets.aspx.cs">
@@ -146,12 +151,33 @@
     <Compile Include="usersignup.aspx.designer.cs">
       <DependentUpon>usersignup.aspx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="crearTicket.aspx.cs">
+      <DependentUpon>crearTicket.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
+    <Compile Include="crearTicket.aspx.designer.cs">
+      <DependentUpon>crearTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="enConstruccion.aspx.cs">
+      <DependentUpon>enConstruccion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="enConstruccion.aspx.designer.cs">
+      <DependentUpon>enConstruccion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Preferencias.aspx.cs">
+      <DependentUpon>Preferencias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Preferencias.aspx.designer.cs">
+      <DependentUpon>Preferencias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="acercaDe.aspx.cs">
+      <DependentUpon>acercaDe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="acercaDe.aspx.designer.cs">
+      <DependentUpon>acercaDe.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <!-- Removed: <None Include="packages.config" /> -->
