@@ -90,6 +90,7 @@
     <Content Include="imgs\logoJATechnology.png" />
     <Content Include="imgs\preferencias.png" />
     <Content Include="imgs\working.png" />
+    <Content Include="inventory\bitacora.png" />
     <Content Include="Properties\admin.png" />
     <Content Include="userlogin.aspx" />
     <Content Include="userprofile.aspx" />

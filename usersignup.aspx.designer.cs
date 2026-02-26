@@ -69,15 +69,6 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.DropDownList listaempresa;
 
         /// <summary>
-        /// puesto control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox puesto;
-
-        /// <summary>
         /// listaSla control.
         /// </summary>
         /// <remarks>
@@ -87,13 +78,13 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.DropDownList listaSla;
 
         /// <summary>
-        /// id control.
+        /// puesto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox id;
+        protected global::System.Web.UI.WebControls.TextBox puesto;
 
         /// <summary>
         /// contrasena control.

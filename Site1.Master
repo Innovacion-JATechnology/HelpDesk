@@ -18,6 +18,9 @@
     <script src="bootstrap/js/popper.min.js"></script>
     <%-- boostrap js --%>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+     <%-- datatables js --%>
+    <script src="datatables/js/dataTables.min.js"></script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -44,7 +47,7 @@
 
 
                         <li class="nav-item active">
-                            <asp:LinkButton class="nav-link" ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">Ingresar</asp:LinkButton>
+                            <asp:LinkButton class="nav-link" ID="linkIngreso" runat="server" OnClick="LinkButton1_Click">Ingresar</asp:LinkButton>
                         </li>
 
 
@@ -56,11 +59,11 @@
                             <a class="nav-link" href="acercaDe.aspx">Acerca</a>
                         </li>
                         <li class="nav-item active">
-                            <asp:LinkButton class="nav-link" ID="LinkButton3" runat="server" Visible="False">Salir</asp:LinkButton>
+                            <asp:LinkButton class="nav-link" ID="linkSalir" runat="server" Visible="False" OnClick="linkSalir_Click">Salir</asp:LinkButton>
                         </li>
 
                         <li class="nav-item active">
-                            <asp:LinkButton class="nav-link" ID="LinkButton7" runat="server" Visible="False">Hola Usuario</asp:LinkButton>
+                            <asp:LinkButton class="nav-link" ID="linkHola" runat="server" Visible="False">Hola Usuario</asp:LinkButton>
                         </li>
                     </ul>
 
@@ -86,19 +89,19 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <p>
-                            <asp:LinkButton class="footerlinks" ID="LinkButton6"
+                            <asp:LinkButton class="footerlinks" ID="linkAdministrador"
                                 runat="server" OnClick="LinkButton6_Click">Administrador</asp:LinkButton>
                             &nbsp;
-                    <asp:LinkButton class="footerlinks" ID="LinkButton11"
-                        runat="server" OnClick="LinkButton11_Click" Visible="False">Supervisor</asp:LinkButton>
+                    <asp:LinkButton class="footerlinks" ID="linkMantenimiento"
+                        runat="server" OnClick="LinkButton11_Click" Visible="False">Mantenimiento</asp:LinkButton>
                             &nbsp;
-                    <asp:LinkButton class="footerlinks" ID="LinkButton12"
+                    <asp:LinkButton class="footerlinks" ID="linkCatalogo"
                         runat="server" OnClick="LinkButton12_Click">Catalogo de Usuarios</asp:LinkButton>
                             &nbsp;
-                    <asp:LinkButton class="footerlinks" ID="LinkButton8"
+                    <asp:LinkButton class="footerlinks" ID="linkHistorial"
                         runat="server" OnClick="LinkButton8_Click" Visible="False">Tickets Historia</asp:LinkButton>
                             &nbsp;
-                    <asp:LinkButton class="footerlinks" ID="LinkButton10"
+                    <asp:LinkButton class="footerlinks" ID="linkRegistro"
                         runat="server" OnClick="LinkButton10_Click">Agregar usuario</asp:LinkButton>
                         </p>
                     </div>

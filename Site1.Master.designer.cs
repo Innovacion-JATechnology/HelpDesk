@@ -33,31 +33,31 @@ namespace HelpDesk
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// LinkButton1 control.
+        /// linkIngreso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+        protected global::System.Web.UI.WebControls.LinkButton linkIngreso;
 
         /// <summary>
-        /// LinkButton3 control.
+        /// linkSalir control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton3;
+        protected global::System.Web.UI.WebControls.LinkButton linkSalir;
 
         /// <summary>
-        /// LinkButton7 control.
+        /// linkHola control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton7;
+        protected global::System.Web.UI.WebControls.LinkButton linkHola;
 
         /// <summary>
         /// ContentPlaceHolder1 control.
@@ -69,48 +69,48 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
 
         /// <summary>
-        /// LinkButton6 control.
+        /// linkAdministrador control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton6;
+        protected global::System.Web.UI.WebControls.LinkButton linkAdministrador;
 
         /// <summary>
-        /// LinkButton11 control.
+        /// linkMantenimiento control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton11;
+        protected global::System.Web.UI.WebControls.LinkButton linkMantenimiento;
 
         /// <summary>
-        /// LinkButton12 control.
+        /// linkCatalogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton12;
+        protected global::System.Web.UI.WebControls.LinkButton linkCatalogo;
 
         /// <summary>
-        /// LinkButton8 control.
+        /// linkHistorial control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton8;
+        protected global::System.Web.UI.WebControls.LinkButton linkHistorial;
 
         /// <summary>
-        /// LinkButton10 control.
+        /// linkRegistro control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton10;
+        protected global::System.Web.UI.WebControls.LinkButton linkRegistro;
     }
 }

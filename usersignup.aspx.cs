@@ -13,10 +13,11 @@ namespace HelpDesk
 {
     public partial class usersignup : System.Web.UI.Page
     {
-        string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        string strcon = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)  
+                fillEmpresa();
         }
         //Login boton evento
         protected void Button1_Click(object sender, EventArgs e)
@@ -57,8 +58,28 @@ namespace HelpDesk
 
         void signUpNewUser()
         {
+
+            if (string.IsNullOrEmpty(listaempresa.SelectedValue))
+            {
+                ShowClientMessage("Por favor seleccione una empresa.");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(listaSla.SelectedValue))
+            {
+                ShowClientMessage("Por favor seleccione nivel de servicio (SLA)");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(contrasena.Text))
+            {
+                ShowClientMessage("Escriba una contraseña");
+                return;
+            }
+
             try
             {
+
                 SqlConnection con = new SqlConnection(strcon);
                 if(con.State == System.Data.ConnectionState.Closed)
                     con.Open();
@@ -102,16 +123,66 @@ namespace HelpDesk
             }
             catch (Exception ex)
             {
-                               Response.Write("<script>alert('" + ex.Message + "');</script>");
+                Response.Write("<script>alert('" + ex.Message + "');</script>");
             }
         }
 
-
-
-
-        protected void Paterno_TextChanged(object sender, EventArgs e)
+  void fillEmpresa()
+{
+    try
+    {
+        using (SqlConnection con = new SqlConnection(strcon))
         {
+            con.Open();
 
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT nombre FROM hd.empresa ORDER BY nombre;", con))
+            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            {
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                listaempresa.DataSource = dt;
+                listaempresa.DataValueField = "nombre";   // Match exact column name
+                listaempresa.DataTextField = "nombre";    // Important for display
+                listaempresa.DataBind();
+            }
+
+            listaempresa.Items.Insert(0, new ListItem("Seleccione empresa", ""));
+
+            using (SqlCommand cmd = new SqlCommand(
+                      "SELECT nombre FROM hd.SLA order by SLAid;", con))
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        listaSla.DataSource = dt;
+                        listaSla.DataValueField = "Nombre";   // Match exact column name
+                        listaSla.DataTextField = "Nombre";    // Important for display
+                        listaSla.DataBind();
+                    }
+
+                    listaSla.Items.Insert(0, new ListItem("Sel. Nivel de Servicio", ""));
+                }
+
+    }
+    catch (Exception ex)
+    {
+        ClientScript.RegisterStartupScript(
+            this.GetType(),"err","alert('Error al cargar empresas');",true);
+    }
+}
+
+        private void ShowClientMessage(string message)
+        {
+            // Safer than Response.Write
+            var safe = HttpUtility.JavaScriptStringEncode(message);
+            ClientScript.RegisterStartupScript(
+                GetType(),
+                "alert",
+                $"alert('{safe}');",
+                addScriptTags: true);
         }
     }
 }
