@@ -70,7 +70,7 @@ namespace HelpDesk
         protected void LinkButton11_Click(object sender, EventArgs e)
         {
 
-           
+            Response.Redirect("agregarAgente.aspx");
         }
 
         protected void LinkButton12_Click(object sender, EventArgs e)
@@ -108,6 +108,12 @@ namespace HelpDesk
             linkRegistro.Visible = false; // regsitro link button
 
             Response.Redirect("homepage.aspx", false);
+        }
+
+        protected void linkHola_Click(object sender, EventArgs e)
+        {
+
+            Response.Redirect("miPerfil.aspx", false);
         }
     }
 }

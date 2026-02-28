@@ -11,115 +11,124 @@ namespace HelpDesk
 {
 
 
-    public partial class Site1
+    public partial class miPerfil
     {
 
         /// <summary>
-        /// head control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// form1 control.
+        /// TextBox3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.TextBox TextBox3;
 
         /// <summary>
-        /// linkIngreso control.
+        /// TextBox4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkIngreso;
+        protected global::System.Web.UI.WebControls.TextBox TextBox4;
 
         /// <summary>
-        /// linkSalir control.
+        /// TextBox9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkSalir;
+        protected global::System.Web.UI.WebControls.TextBox TextBox9;
 
         /// <summary>
-        /// linkHola control.
+        /// TextBox5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkHola;
+        protected global::System.Web.UI.WebControls.TextBox TextBox5;
 
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// TextBox6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.TextBox TextBox6;
 
         /// <summary>
-        /// linkAdministrador control.
+        /// DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkAdministrador;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
 
         /// <summary>
-        /// linkMantenimiento control.
+        /// TextBox8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkMantenimiento;
+        protected global::System.Web.UI.WebControls.TextBox TextBox8;
 
         /// <summary>
-        /// linkCatalogo control.
+        /// DropDownList2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkCatalogo;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
 
         /// <summary>
-        /// linkHistorial control.
+        /// TextBox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkHistorial;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
 
         /// <summary>
-        /// linkRegistro control.
+        /// TextBox2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkRegistro;
+        protected global::System.Web.UI.WebControls.TextBox TextBox2;
 
         /// <summary>
-        /// AgregarAgente control.
+        /// TextBox7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton AgregarAgente;
+        protected global::System.Web.UI.WebControls.TextBox TextBox7;
+
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }
