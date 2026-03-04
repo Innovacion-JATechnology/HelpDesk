@@ -51,13 +51,13 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.DropDownList listaSla;
 
         /// <summary>
-        /// habilidades control.
+        /// hbls control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox habilidades;
+        protected global::System.Web.UI.WebControls.TextBox hbls;
 
         /// <summary>
         /// contrasena control.

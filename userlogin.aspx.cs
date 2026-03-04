@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+
+using HelpDesk.Security;
 
 namespace HelpDesk
 {
     public partial class userlogin : System.Web.UI.Page
     {
+        private readonly string strcon = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
 
-        string strcon = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
         }
@@ -22,32 +22,108 @@ namespace HelpDesk
         {
             try
             {
-                SqlConnection con = new SqlConnection(strcon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                var userEmail = usuario.Text == null ? "" : usuario.Text.Trim().ToLowerInvariant();
+                var pwd = contrasena.Text == null ? "" : contrasena.Text;
+
+                if (string.IsNullOrWhiteSpace(userEmail) || string.IsNullOrWhiteSpace(pwd))
+                {
+                    ShowClientMessage("Por favor ingresa correo y contraseña.");
+                    return;
+                }
+
+                using (var con = new SqlConnection(strcon))
+                using (var cmd = new SqlCommand(@"
+                    SELECT TOP 1
+                        UsuarioId,
+                        Nombre,
+                        Correo,
+                        Activo,
+                        Estatus,
+                        PasswordHash,
+                        PasswordSalt
+                    FROM hd.Usuario
+                    WHERE Correo = @Correo;
+                ", con))
+                {
+                    cmd.Parameters.Add("@Correo", SqlDbType.NVarChar, 256).Value = userEmail;
+
                     con.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (!rdr.HasRows)
+                        {
+                            ShowClientMessage("Credenciales inválidas.");
+                            return;
+                        }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from hd.usuario WHERE Correo='" +
-                    usuario.Text.Trim() + "' AND contraseña='" + contrasena.Text.Trim() + "'", con);
+                        if (rdr.Read())
+                        {
+                            var activo = rdr["Activo"] != DBNull.Value && (bool)rdr["Activo"];
+                            var estatus = rdr["Estatus"] != DBNull.Value && (bool)rdr["Estatus"];
 
-                SqlDataReader dr =  cmd.ExecuteReader();                 
+                            // Obtener salt y hash almacenados
+                            var dbSalt = rdr["PasswordSalt"] as byte[];
+                            var dbHash = rdr["PasswordHash"] as byte[];
 
-                if (dr.HasRows)
-                { 
-                    while (dr.Read())
-                    { 
-                        Session["username"] = dr["Correo"].ToString();
-                        Session["fullname"] = dr["Nombre"].ToString();
-                        Session["role"] = "usuario";
-                        Session["status"] = dr["Estatus"].ToString();
-                        Response.Redirect("homepage.aspx", false);
+                            // Validar tamaños esperados
+                            if (dbSalt == null || dbHash == null ||
+                                dbSalt.Length != PasswordCrypto.SaltSize ||
+                                dbHash.Length != PasswordCrypto.HashSize)
+                            {
+                                ShowClientMessage("Error de credenciales (formato inválido).");
+                                return;
+                            }
+
+                            // Verificar contraseña
+                            var ok = PasswordCrypto.VerifyPassword(pwd, dbSalt, dbHash);
+                            if (!ok)
+                            {
+                                ShowClientMessage("Credenciales inválidas.");
+                                return;
+                            }
+
+                            if (!activo || !estatus)
+                            {
+                                ShowClientMessage("Tu cuenta está inactiva. Contacta al administrador.");
+                                return;
+                            }
+
+                            // Autenticación OK → setear sesión
+                            Session["userid"] = rdr["UsuarioId"].ToString();
+                            Session["username"] = rdr["Correo"].ToString();
+                            Session["fullname"] = rdr["Nombre"].ToString();
+                            Session["role"] = "usuario";
+                            Session["status"] = estatus ? "Activo" : "Inactivo";
+
+                            // Redirigir
+                            Response.Redirect("homepage.aspx", false);
+                        }
                     }
-                }            
-                else 
-                    Response.Write("<script>alert('" + "Credenciales invalidas" + "');</script>"); 
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Response.Write("<script>alert('" + ex.Message + "');</script>");
+                // Evita exponer detalles técnicos al usuario final
+                ShowClientMessage("Ocurrió un error al iniciar sesión.");
+                // TODO: loguear excepción
+            }
+        }
+
+        private void ShowClientMessage(string message)
+        {
+            var safe = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
+            var key = "alert_" + Guid.NewGuid().ToString("N");
+
+            // Si usas UpdatePanel, puedes preferir ScriptManager.RegisterStartupScript
+            if (ScriptManager.GetCurrent(this.Page) != null)
+            {
+                ScriptManager.RegisterStartupScript(
+                    this, this.GetType(), key, $"alert('{safe}');", true);
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(
+                    this.GetType(), key, $"alert('{safe}');", true);
             }
         }
     }

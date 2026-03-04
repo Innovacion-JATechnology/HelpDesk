@@ -78,13 +78,13 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.DropDownList listaSla;
 
         /// <summary>
-        /// puesto control.
+        /// listaPuesto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox puesto;
+        protected global::System.Web.UI.WebControls.DropDownList listaPuesto;
 
         /// <summary>
         /// contrasena control.

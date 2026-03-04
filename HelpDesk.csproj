@@ -80,6 +80,7 @@
     <Content Include="datatables\js\dataTables.min.js" />
     <Content Include="homepage.aspx" />
     <Content Include="imgs\admin.png" />
+    <Content Include="imgs\agente.png" />
     <Content Include="imgs\barra.png" />
     <Content Include="imgs\allTickets.png" />
     <Content Include="imgs\levanta.png" />
@@ -148,6 +149,7 @@
       <DependentUpon>misTickets.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\PasswordCrypto.cs" />
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

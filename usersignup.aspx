@@ -92,7 +92,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                             <div class="col-md-6">
                                 <label>SLA</label>
@@ -112,13 +112,14 @@
                             <div class="col-md-12">
                                 <label>Puesto</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="puesto"
-                                        runat="server" placeholder="Puesto"></asp:TextBox>
+                                    <asp:DropDownList class="form-control" ID="listaPuesto" runat="server">
+                                        <asp:ListItem Text="Cepesmar" Value="Cepesmar" />
+                                    </asp:DropDownList>
                                 </div>
                             </div>
                         </div>
 
-                      
+
 
                         <div class="row">
 

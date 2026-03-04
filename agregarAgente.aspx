@@ -1,10 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="agregarAgente.aspx.cs" Inherits="HelpDesk.agregarAgente" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-        <div class="container">
+    <div class="container">
         <div class="row">
             <div class="col-md-6 mx-auto">
 
@@ -14,7 +15,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img width="150px" src="imgs/usuario.png" />
+                                    <img src="imgs/agente.png" width="150px" />
                                 </center>
                             </div>
                         </div>
@@ -37,17 +38,15 @@
 
                         <div class="row">
                             <div class="col-md-12">
-    <label>Nombre(s)</label>
-    <div class="form-group">
-        <asp:TextBox CssClass="form-control" ID="nombre"
-            runat="server" placeholder="Nombre(s)"></asp:TextBox>
-    </div>
-</div>
+                                <label>Nombre(s)</label>
+                                <div class="form-group">
+                                    <asp:TextBox CssClass="form-control" ID="nombre"
+                                        runat="server" placeholder="Nombre(s)"></asp:TextBox>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
-                            
-                            
                         </div>
                         <div class="row">
 
@@ -69,7 +68,7 @@
                         </div>
 
                         <div class="row">
-                                                    
+
 
                             <div class="col-md-6">
                                 <label>Nivel de Soporte</label>
@@ -78,21 +77,21 @@
 
                                         <asp:ListItem Text="1" Value="1" />
                                         <asp:ListItem Text="2" Value="2" />
-                                        <asp:ListItem Text="3" Value="3" /> 
+                                        <asp:ListItem Text="3" Value="3" />
                                     </asp:DropDownList>
                                 </div>
                             </div>
-                       
+
                             <div class="col-md-6">
                                 <label>Habilidades</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="habilidades"
+                                    <asp:TextBox CssClass="form-control" ID="hbls"
                                         runat="server" placeholder="Habilidades"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
 
-                      
+
 
                         <div class="row">
 
