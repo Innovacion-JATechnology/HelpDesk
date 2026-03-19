@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace HelpDesk
 {
-    public partial class adminAllTickets : System.Web.UI.Page
+    public partial class adminAllTickets : AgentOnlyPage
     {
 
 

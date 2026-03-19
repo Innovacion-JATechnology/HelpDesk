@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace HelpDesk
 {
-    public partial class userprofile : System.Web.UI.Page
+    public partial class CapturaTablas : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

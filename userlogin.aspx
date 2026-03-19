@@ -44,11 +44,23 @@
                                         runat="server" placeholder="Usuario"></asp:TextBox>
                                 </div>
 
-                                <label>Contraseña ID</label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="contrasena"
-                                        runat="server" placeholder="Contraseña"></asp:TextBox>
-                                </div>
+                            
+
+                                <label>Contraseña</label>
+<div class="form-group position-relative">
+    <asp:TextBox CssClass="form-control pr-5" ID="contrasena"
+                 runat="server" placeholder="Contraseña" TextMode="Password" />
+    <!-- Toggle button -->
+    <button type="button"
+            id="togglePwd"
+            class="btn btn-sm btn-light border position-absolute"
+            style="right:8px; top:50%; transform:translateY(-50%);"
+            aria-label="Mostrar u ocultar contraseña"
+            aria-pressed="false">
+        <span id="toggleIcon">👁️</span>
+    </button>
+</div>
+
 
                                 <div class="form-group">
                                     <asp:Button ID="continuarIngreso"
@@ -68,4 +80,23 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+    (function () {
+        var pwd = document.getElementById('<%= contrasena.ClientID %>');
+        var btn = document.getElementById('togglePwd');
+        var icon = document.getElementById('toggleIcon');
+
+        if (!pwd || !btn) return;
+
+        btn.addEventListener('click', function () {
+            var showing = pwd.getAttribute('type') === 'text';
+            pwd.setAttribute('type', showing ? 'password' : 'text');
+            // Update icon/text & accessibility state
+            icon.textContent = showing ? '👁️' : '🙈';
+            btn.setAttribute('aria-pressed', (!showing).toString());
+        });
+    })();
+    </script>
 </asp:Content>

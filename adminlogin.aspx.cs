@@ -89,7 +89,7 @@ namespace HelpDesk
                             // (Compatibilidad con código previo que esperaba "ID")
                             Session["ID"] = rdr["agenteId"].ToString();
 
-                            Response.Redirect("homepage.aspx", false);
+                            Response.Redirect("InicioAgente.aspx", false);
                         }
                     }
                 }

@@ -96,7 +96,7 @@ namespace HelpDesk
                             Session["status"] = estatus ? "Activo" : "Inactivo";
 
                             // Redirigir
-                            Response.Redirect("homepage.aspx", false);
+                            Response.Redirect("InicioUsuario.aspx", false);
                         }
                     }
                 }

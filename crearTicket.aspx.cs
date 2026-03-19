@@ -8,7 +8,7 @@ using System.Web.UI;
 
 namespace HelpDesk
 {
-    public partial class WebForm1 : System.Web.UI.Page
+    public partial class WebForm1 : UsuarioOnlyPage
     {
         private readonly string _connString = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
 
@@ -98,12 +98,18 @@ VALUES
                     cmd.CommandType = CommandType.Text;
 
                     // 3) Parameters (strongly typed)
-                    cmd.Parameters.Add("@UsuarioId", SqlDbType.Int).Value = 1;
+
+                    object creadoPor = Session["userid"] ??  (object)DBNull.Value;
+                    if (creadoPor is string s && long.TryParse(s, out var creadoPorId))
+                        cmd.Parameters.Add("@UsuarioId", SqlDbType.BigInt).Value = creadoPorId;
+                    else
+                        cmd.Parameters.Add("@UsuarioId", SqlDbType.BigInt).Value = DBNull.Value;
+                     
                     cmd.Parameters.Add("@Asunto", SqlDbType.NVarChar, 200).Value = asuntoValue;
                     cmd.Parameters.Add("@Descripcion", SqlDbType.NVarChar, -1).Value = (object)descripcionValue ?? DBNull.Value; // -1 = NVARCHAR(MAX)
                     cmd.Parameters.Add("@Estatus", SqlDbType.Int).Value = 1;
                     cmd.Parameters.Add("@Prioridad", SqlDbType.Int).Value = 1;
-                    cmd.Parameters.Add("@AgenteId", SqlDbType.Int).Value = 1;
+                    cmd.Parameters.Add("@AgenteId", SqlDbType.Int).Value = DBNull.Value;
 
                     // Nullable datetimes
                     cmd.Parameters.Add("@ParaUtc", SqlDbType.DateTime2).Value = DBNull.Value;
@@ -120,10 +126,13 @@ VALUES
                     newTicketId = Convert.ToInt32(result);
                 }
 
-                // 4) Client feedback (safe)
-                ShowClientMessage($"Ticket creado exitosamente. ID: {HttpUtility.HtmlEncode(newTicketId.ToString())}");
-                // Optionally redirect to detail page:
-                // Response.Redirect($"TicketDetalle.aspx?id={newTicketId}", endResponse: false);
+                // 4) Client feedback                 
+
+                ShowClientMessageAndRedirect(
+                    $"Ticket creado exitosamente. ID: {newTicketId}",
+                    "InicioUsuario.aspx?registered=1"
+                );
+
             }
             catch (SqlException sqlEx)
             {
@@ -137,16 +146,7 @@ VALUES
             }
         }
 
-        private void ShowClientMessage(string message)
-        {
-            // Safer than Response.Write
-            var safe = HttpUtility.JavaScriptStringEncode(message);
-            ClientScript.RegisterStartupScript(
-                GetType(),
-                "alert",
-                $"alert('{safe}');",
-                addScriptTags: true);
-        }
+       
 
     }
 }

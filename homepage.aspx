@@ -4,48 +4,46 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <section> 
+    <section>
         <img src="imgs/barra.png" class="img-fluid w-100 d-block" alt="barra">
     </section>
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-12"> 
-                    <br> </br> 
+                <div class="col-12">
+                    <center>
+                        <br>
+                            <h2>Sistema de Soporte 1.0
+                            </h2>
+                        </br>
+
+                    </center>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-                    <center>
-                        <img height="200px" src="imgs/levanta.png" />
-                            <h4> Crear Ticket</h4>
-                        <p class="text-center">
-                           Click para crear tickets para el area de soporte.
-                        </p>
-                    </center>
-                </div>
-             
-                <div class="col-md-4">
-                    <center>
-                        <img height="200px" src="imgs/ticket.png" />
-                        <h4>Mis Tickets</h4>
-                        <p class="text-center">
-                            Click para ver historial de tickets.
-                        </p>
-                    </center>
-                </div> 
 
-                <div class="col-md-4">
-                    <center>
-                        <img height="200px" src="imgs/preferencias.png" />
-                        <h4>Preferencias</h4>
-                        <p class="text-center">
-                            Preferencias de la aplicación
-                        </p>
-                    </center>
+
+                <div class="col-md-6">
+                    <a href="userlogin.aspx" style="text-decoration: none; color: inherit;">
+                        <center>
+                            <img height="200px" src="imgs/usuario.png" />
+                            <h4>Ingresar como usuario</h4>
+                    </a>
                 </div>
-            
+
+
+                <div class="col-md-6">
+                    <a href="adminlogin.aspx" style="text-decoration: none; color: inherit;">
+                        <center>
+                            <img height="200px" src="imgs/admin.png" />
+                            <h4>Ingresar como Administrador</h4>
+                        </center>
+                    </a>
+                </div>
+
+
+
             </div>
 
         </div>

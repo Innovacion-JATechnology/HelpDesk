@@ -1,25 +1,29 @@
-﻿using System;
+﻿using HelpDesk.Security; // Igual que en userlogin: PasswordCrypto y sus constantes
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
-using HelpDesk.Security; // Igual que en userlogin: PasswordCrypto y sus constantes
 
 namespace HelpDesk
 {
-    public partial class agregarAgente : System.Web.UI.Page
+    public partial class agregarAgente : AgentOnlyPage
     {
         private readonly string strcon = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             try
             {
+                int insertedId;
                 // Lee y normaliza entradas del formulario (IDs según tu .aspx)
                 var email = (correo?.Text ?? string.Empty).Trim().ToLowerInvariant();
                 var nombreAg = (nombre?.Text ?? string.Empty).Trim();
@@ -101,8 +105,8 @@ namespace HelpDesk
                         cmd.Parameters.Add("@PasswordSalt", SqlDbType.VarBinary, 16).Value = salt;
 
                         var insertedIdObj = cmd.ExecuteScalar();
-                        var insertedId = insertedIdObj == null ? 0 : Convert.ToInt32(insertedIdObj);
-
+                        insertedId = insertedIdObj == null ? 0 : Convert.ToInt32(insertedIdObj);
+                         
                         if (insertedId <= 0)
                         {
                             ShowClientMessage("No se pudo crear el agente.");
@@ -111,12 +115,26 @@ namespace HelpDesk
                     }
                 }
 
-                // Feedback y limpieza
-                ShowClientMessage("Agente creado correctamente.");
-                contrasena.Text = string.Empty;
-                // Si quieres limpiar todo:
-                // correo.Text = nombre.Text = contacto.Text = habilidades.Text = string.Empty;
-                // listaSla.ClearSelection(); listaSla.Items.FindByValue("1")?.Selected = true;
+
+            
+
+                ShowClientMessageAndRedirect(
+                    $"Usuario {nombreAg} creado exitosamente. ID: {insertedId}",
+                    "InicioAgente.aspx?registered=1"
+                );
+
+            contrasena.Text = string.Empty;
+                habilidades = string.Empty;
+                 correo.Text = nombre.Text = contacto.Text  = string.Empty;
+                listaSla.ClearSelection();
+
+                var slaItem = listaSla.Items.FindByValue("1");
+                if (slaItem != null)
+                {
+                    listaSla.ClearSelection();
+                    slaItem.Selected = true;
+                }
+
             }
             catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) // UNIQUE KEY violation
             {
@@ -125,22 +143,8 @@ namespace HelpDesk
             catch (Exception)
             {
                 ShowClientMessage("Ocurrió un error al crear el agente.");
-                // TODO: log
             }
         }
 
-        private void ShowClientMessage(string message)
-        {
-            var safe = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
-            var key = "alert_" + Guid.NewGuid().ToString("N");
-            if (ScriptManager.GetCurrent(this.Page) != null)
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), key, $"alert('{safe}');", true);
-            }
-            else
-            {
-                ClientScript.RegisterStartupScript(this.GetType(), key, $"alert('{safe}');", true);
-            }
-        }
     }
 }

@@ -4,7 +4,18 @@
 
 <html>
 <head runat="server">
-    <title></title>
+    
+
+ <style>
+        /* Edge/IE specific pseudo-elements */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
+    </style>
+
+     
+
     <%-- boostrap cs --%>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <%-- data tables css --%>
@@ -18,14 +29,45 @@
     <script src="bootstrap/js/popper.min.js"></script>
     <%-- boostrap js --%>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-     <%-- datatables js --%>
+    <%-- datatables js --%>
     <script src="datatables/js/dataTables.min.js"></script>
 
+
+    <script>
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+
+
     <asp:ContentPlaceHolder ID="head" runat="server">
+
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+            });
+        </script>
+
+
+        <script>
+            // Si la página vuelve desde el bfcache, recargar y disparar la verificación de rol en servidor
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    window.location.reload();
+                }
+            });
+        </script>
+
+
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">
@@ -51,9 +93,11 @@
                         </li>
 
 
-                        <li class="nav-item active">
-                            <a class="nav-link" href="homepage.aspx">Inicio</a>
-                        </li>
+                      
+<li class="nav-item active">
+    <a id="lnkInicio" runat="server" class="nav-link">Inicio</a>
+</li>
+
 
                         <li class="nav-item active">
                             <a class="nav-link" href="acercaDe.aspx">Acerca</a>
@@ -92,20 +136,21 @@
                             <asp:LinkButton class="footerlinks" ID="linkAdministrador"
                                 runat="server" OnClick="LinkButton6_Click">Administrador</asp:LinkButton>
                             &nbsp;
-                    <asp:LinkButton class="footerlinks" ID="linkMantenimiento"
-                        runat="server" OnClick="LinkButton11_Click" Visible="False">Mantenimiento</asp:LinkButton>
-                            &nbsp;
                     <asp:LinkButton class="footerlinks" ID="linkCatalogo"
-                        runat="server" OnClick="LinkButton12_Click">Catalogo de Usuarios</asp:LinkButton>
+                        runat="server" OnClick="LinkButton12_Click">Ver usuarios</asp:LinkButton>
                             &nbsp;
                     <asp:LinkButton class="footerlinks" ID="linkHistorial"
-                        runat="server" OnClick="LinkButton8_Click" Visible="False">Tickets Historia</asp:LinkButton>
+                        runat="server" OnClick="LinkButton8_Click" Visible="False">Ver tickets</asp:LinkButton>
                             &nbsp;
                     <asp:LinkButton class="footerlinks" ID="linkRegistro"
                         runat="server" OnClick="LinkButton10_Click">Agregar usuario</asp:LinkButton>
-                                    &nbsp;
-<asp:LinkButton class="footerlinks" ID="AgregarAgente"
-    runat="server" OnClick="LinkButton11_Click">Agregar Agente</asp:LinkButton> 
+                            &nbsp;
+                            <asp:LinkButton class="footerlinks" ID="AgregarAgente"
+                                runat="server" OnClick="LinkButton18_Click">Agregar agente</asp:LinkButton>
+                            &nbsp;
+                    <asp:LinkButton class="footerlinks" ID="linkMantenimiento"
+                        runat="server" OnClick="LinkButton11_Click" Visible="False">Mantenimiento</asp:LinkButton>
+
                         </p>
                     </div>
                 </div>

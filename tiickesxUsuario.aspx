@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userprofile.aspx.cs" Inherits="HelpDesk.userprofile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="tiickesxUsuario.aspx.cs" Inherits="HelpDesk.userprofile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -174,7 +174,7 @@
 
                 </div>
 
-                <a href="homepage.aspx"><< Regresar al Inicio</a><br />
+                <a href="InicioAgente.aspx"><< Regresar al Inicio</a><br />
                 <br />
             </div>
 

@@ -115,7 +115,7 @@
                         </div>
                     </div>
 
-                    <a href="homepage.aspx"><< Regresar al Inicio</a><br>
+                    <a href="InicioAgente.aspx"><< Regresar al Inicio</a><br>
                     <br />
                 </div>
             </div>

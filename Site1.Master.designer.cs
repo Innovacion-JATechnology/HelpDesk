@@ -33,6 +33,15 @@ namespace HelpDesk
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
+        /// <summary>
         /// linkIngreso control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace HelpDesk
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton linkIngreso;
+
+        /// <summary>
+        /// lnkInicio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkInicio;
 
         /// <summary>
         /// linkSalir control.
@@ -78,15 +96,6 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.LinkButton linkAdministrador;
 
         /// <summary>
-        /// linkMantenimiento control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton linkMantenimiento;
-
-        /// <summary>
         /// linkCatalogo control.
         /// </summary>
         /// <remarks>
@@ -121,5 +130,14 @@ namespace HelpDesk
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton AgregarAgente;
+
+        /// <summary>
+        /// linkMantenimiento control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton linkMantenimiento;
     }
 }

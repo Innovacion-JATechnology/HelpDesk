@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace HelpDesk
 {
-    public partial class usersignup : System.Web.UI.Page
+    public partial class usersignup : AgentOnlyPage
     {
         private readonly string strcon = ConfigurationManager.ConnectionStrings["ServerCon"].ConnectionString;
 
@@ -116,6 +116,8 @@ namespace HelpDesk
 
             try
             {
+
+                int newID;
                 using (var con = new SqlConnection(strcon))
                 using (var cmd = new SqlCommand(@"
                     INSERT INTO hd.Usuario
@@ -165,17 +167,15 @@ namespace HelpDesk
 
                     // Auditoría
                     cmd.Parameters.Add("@CreadoEn", SqlDbType.DateTime2).Value = DateTime.UtcNow;
-
-
-                    //      cmd.Parameters.Add("@CreadoPor", SqlDbType.BigInt).Value = Session["ID"]; // TODO: reemplaza por el usuario autenticado de sesión
-
-                    object sessionId = Session["ID"];
-                    if (sessionId == null || string.IsNullOrWhiteSpace(sessionId.ToString()))
-                    {
+                 
+                   
+                    object creadoPor = Session["agentid"] ?? (object)DBNull.Value;
+                    if (creadoPor is string s && long.TryParse(s, out var creadoPorId))
+                        cmd.Parameters.Add("@CreadoPor", SqlDbType.BigInt).Value = creadoPorId;
+                    else
                         cmd.Parameters.Add("@CreadoPor", SqlDbType.BigInt).Value = DBNull.Value;
-                    }
 
-              
+
                     cmd.Parameters.Add("@ActualizadoEn", SqlDbType.DateTime2).Value = DBNull.Value;
                     cmd.Parameters.Add("@ActualizadoPor", SqlDbType.BigInt).Value = DBNull.Value;
 
@@ -184,12 +184,16 @@ namespace HelpDesk
                     cmd.Parameters.Add("@PasswordSalt", SqlDbType.VarBinary, PasswordCrypto.SaltSize).Value = salt; // 16 bytes
 
                     con.Open();
-                    cmd.ExecuteNonQuery();
+                   // cmd.ExecuteNonQuery();
+
+                    object result = cmd.ExecuteScalar();
+                    newID = Convert.ToInt32(result);
                 }
 
-
-                Response.Redirect("homepage.aspx?registered=1", endResponse: false);
-                Context.ApplicationInstance.CompleteRequest();
+                ShowClientMessageAndRedirect(
+                    $"Usuario {nombre.Text} creado exitosamente. ID: {newID}",
+                    "InicioAgente.aspx?registered=1"
+                );
 
             }
             catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) // unique violation
@@ -268,26 +272,6 @@ namespace HelpDesk
             }
         }
 
-        private void ShowClientMessage(string message)
-        {
-            // Más seguro que Response.Write
-            var safe = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
-
-            // Si usas UpdatePanel, cambia a ScriptManager.RegisterStartupScript
-            if (ScriptManager.GetCurrent(this.Page) != null)
-            {
-                ScriptManager.RegisterStartupScript(
-                    this, this.GetType(), "alert_" + Guid.NewGuid().ToString("N"),
-                    $"alert('{safe}');", true);
-            }
-            else
-            {
-                ClientScript.RegisterStartupScript(
-                    GetType(),
-                    "alert_" + Guid.NewGuid().ToString("N"),
-                    $"alert('{safe}');",
-                    addScriptTags: true);
-            }
-        }
+       
     }
 }
