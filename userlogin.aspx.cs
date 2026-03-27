@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 
 using HelpDesk.Security;
+using HelpDesk.Utilities;
 
 namespace HelpDesk
 {
@@ -97,6 +98,7 @@ namespace HelpDesk
 
                             // Redirigir
                             Response.Redirect("InicioUsuario.aspx", false);
+                            Logger.RegistrarInfo($"Usuario '{userEmail}' inició sesión exitosamente.");
                         }
                     }
                 }
@@ -105,7 +107,7 @@ namespace HelpDesk
             {
                 // Evita exponer detalles técnicos al usuario final
                 ShowClientMessage("Ocurrió un error al iniciar sesión.");
-                // TODO: loguear excepción
+                Logger.RegistrarError("Error en proceso de login para usuario: " + (usuario.Text ?? "N/A"));
             }
         }
 

@@ -16,6 +16,29 @@ namespace HelpDesk
         {
         }
 
+        private int GetPrioridadFromSeveridad(string sev)
+        {
+            if (string.IsNullOrWhiteSpace(sev)) return 4; // Normal
+            sev = sev.Trim().ToLowerInvariant();
+            switch (sev)
+            {
+                case "critico":
+                case "crítico":
+                case "critíco":
+                    return 1;
+                case "muy urgente":
+                    return 2;
+                case "urgente":
+                    return 3;
+                case "normal":
+                    return 4;
+                case "bajo":
+                    return 5;
+                default:
+                    return 4;
+            }
+        }
+
         protected void CrearTicket_Click(object sender, EventArgs e)
         {
             // 1) Validate inputs
@@ -108,7 +131,15 @@ VALUES
                     cmd.Parameters.Add("@Asunto", SqlDbType.NVarChar, 200).Value = asuntoValue;
                     cmd.Parameters.Add("@Descripcion", SqlDbType.NVarChar, -1).Value = (object)descripcionValue ?? DBNull.Value; // -1 = NVARCHAR(MAX)
                     cmd.Parameters.Add("@Estatus", SqlDbType.Int).Value = 1;
-                    cmd.Parameters.Add("@Prioridad", SqlDbType.Int).Value = 1;
+                    // map severidad dropdown to prioridad numeric value (Critico=1 ... Bajo=5)
+                    int prioridad = 4; // default Normal
+                    try
+                    {
+                        var sev = DropDownListSeveridad?.SelectedValue ?? string.Empty;
+                        prioridad = GetPrioridadFromSeveridad(sev);
+                    }
+                    catch { }
+                    cmd.Parameters.Add("@Prioridad", SqlDbType.Int).Value = prioridad;
                     cmd.Parameters.Add("@AgenteId", SqlDbType.Int).Value = DBNull.Value;
 
                     // Nullable datetimes

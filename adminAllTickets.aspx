@@ -8,198 +8,255 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
+    <div class="container-fluid">
+        <div class="row mb-3">
 
+            <div class="col-10 mx-auto">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body"> 
 
+                        <script type="text/javascript">
+                            function toggleDesc(el) {
+                                var parent = el.parentElement;
+                                var desc = parent.querySelector('.ticket-desc');
+                                if (!desc) return;
+                                desc.style.display = (desc.style.display === 'none') ? 'block' : 'none';
+                            }
 
+                            function onAgentChange(sel) {
+                                try {
+                                    var row = sel.closest('tr');
+                                    if (!row) return;
+                                    var btn = row.querySelector('input[id$="btnAssign"]');
+                                    if (!btn) return;
+                                    // enable assign button only if selected value is not empty
+                                    btn.disabled = !(sel.value && sel.value !== '');
+                                } catch (e) { console.error(e); }
+                            }
+
+                            // when a row is clicked, open modal and populate values
+                            function rowClick(row) {
+                                var asunto = row.getAttribute('data-asunto') || '';
+                                var descripcion = row.getAttribute('data-descripcion') || '';
+                                var usuario = row.getAttribute('data-usuario') || '';
+                                var creado = row.getAttribute('data-creado') || '';
+                                var agente = row.getAttribute('data-agente') || '';
+                                var estatus = row.getAttribute('data-estatus') || '';
+                                var ticketId = row.getAttribute('data-ticketid') || '';
+
+                                var modal = document.getElementById('ticketModal');
+                                if (!modal) return;
+
+                                modal.querySelector('.modal-title').innerText = asunto;
+                                modal.querySelector('#modalUsuario').innerText = usuario;
+                                modal.querySelector('#modalCreado').innerText = creado;
+                              //  modal.querySelector('#modalAgente').innerText = agente;
+                                modal.querySelector('#modalEstatus').innerText = estatus;
+                                modal.querySelector('#modalDescripcion').innerText = descripcion;
+
+                                if (ticketId) {
+                                    var hf = document.getElementById(window.modalHiddenId);
+                                    if (hf) hf.value = ticketId;
+                                }
+
+                                // set modal dropdown selection to current agent
+                                var sel = document.getElementById(window.modalDdlId);
+                                if (sel) {
+                                    var current = row.getAttribute('data-agenteid') || '';
+                                    var agentName = row.getAttribute('data-agente') || '';
+                                    var agentStatus = row.getAttribute('data-agentestatus') || '1';
+                                    sel.setAttribute('data-current', current);
+
+                                    try { sel.value = current; } catch (e) { }
+
+                                    if (sel.value !== current) {
+                                        // fallback: try to match by agent name (optional)
+                                        var found = false;
+                                        for (var i = 0; i < sel.options.length; i++) {
+                                            var opt = sel.options[i];
+                                            if (opt.value === current) { sel.selectedIndex = i; found = true; break; }
+                                            if (agentName && opt.text.indexOf(agentName) !== -1) { sel.selectedIndex = i; found = true; break; }
+                                        }
+                                        if (!found) { sel.selectedIndex = 0; }
+                                    }
+
+                                    if (typeof onModalAgentChange === 'function') onModalAgentChange(sel);
+                                }
+
+                                // set agent status dropdown
+                                var statusDdl = document.getElementById(window.modalDdlStatusId);
+                                if (statusDdl) {
+                                    statusDdl.setAttribute('data-current-status', agentStatus);
+                                    try { statusDdl.value = agentStatus; } catch (e) { }
+                                    if (typeof onModalStatusChange === 'function') onModalStatusChange(statusDdl);
+                                }
+
+                                // set prioridad label (map numeric to text)
+                                try {
+                                    var pr = row.getAttribute('data-prioridad') || '';
+                                    var prLbl = document.getElementById('modalPrioridad');
+                                    if (prLbl) {
+                                        var txt = '';
+                                        switch (pr) {
+                                            case '1': txt = 'Crítico'; break;
+                                            case '2': txt = 'Muy urgente'; break;
+                                            case '3': txt = 'Urgente'; break;
+                                            case '4': txt = 'Normal'; break;
+                                            case '5': txt = 'Bajo'; break;
+                                            default: txt = pr || 'NA'; break;
+                                        }
+                                        prLbl.innerText = txt;
+                                    }
+                                } catch (e) { }
+
+                                $('#ticketModal').modal('show');
+                            }
+
+                            function onModalAgentChange(sel) {
+                                var current = sel.getAttribute('data-current') || '';
+                                var btn = document.getElementById(window.modalBtnId);
+                                if (!btn) return;
+                                btn.disabled = (!sel.value || sel.value === '' || sel.value === current);
+                            }
+
+                            function onModalStatusChange(sel) {
+                                var current = sel.getAttribute('data-current-status') || '1';
+                                var btn = document.getElementById(window.modalBtnStatusId);
+                                if (!btn) return;
+                                btn.disabled = (sel.value === current);
+                            }
+
+                            // expose client IDs to script for use when rows click
+                            window.modalDdlId = '<%= modalDdlAgents.ClientID %>';
+                            window.modalBtnId = '<%= modalBtnAssign.ClientID %>';
+                            window.modalHiddenId = '<%= modalHiddenTicketId.ClientID %>';
+                            window.modalDdlStatusId = '<%= modalDdlAgenteStatus.ClientID %>';
+                            window.modalBtnStatusId = '<%= modalBtnUpdateStatus.ClientID %>';
+                        </script>
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <h3>Usuario</h3>
-                                </center>
-                            </div>
-                        </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="ticketModalLabel">Detalles</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <dl class="row">
+                                          <dt class="col-sm-3">Usuario</dt>
+                                          <dd class="col-sm-9" id="modalUsuario"></dd>
 
-                        <div class="row">
-                            <div class="col">
-                                <center>
-                                    <img width="150px" src="imgs/allUsers.png" />
-                                </center>
-                            </div>
-                        </div>
+                                          <dt class="col-sm-3">Creado</dt>
+                                          <dd class="col-sm-9" id="modalCreado"></dd>
 
-                        <div class="row">
-                            <div class="col">
-                                <center>
-                                    <hr>
-                                </center>
-                            </div>
-                        </div>
+                                    <dt class="col-sm-3">Agente</dt>
+<dd class="col-sm-9">
+  <div class="input-group">
+    <asp:DropDownList ID="modalDdlAgents" runat="server"
+        CssClass="form-control"
+        DataSourceID="SqlDataSourceAgentList"
+        DataTextField="DisplayText"
+        DataValueField="AgenteId"
+        AppendDataBoundItems="true"
+        onchange="onModalAgentChange(this)">
+        <asp:ListItem Text="-- Selecciona agente --" Value="" />
+    </asp:DropDownList>
+    <div class="input-group-append">
+      <asp:Button ID="modalBtnAssign" runat="server"
+          CssClass="btn btn-primary"
+          Text="Asignar"
+          OnClick="modalBtnAssign_Click"
+          Enabled="false" />
+    </div>
+  </div>
+</dd>
+
+                                          <dt class="col-sm-3">Estatus Agente</dt>
+                                          <dd class="col-sm-9">
+                                            <div class="input-group">
+                                              <asp:DropDownList ID="modalDdlAgenteStatus" runat="server" CssClass="form-control" onchange="onModalStatusChange(this)">
+                                                <asp:ListItem Text="Activo" Value="1" />
+                                                <asp:ListItem Text="Inactivo" Value="0" />
+                                              </asp:DropDownList>
+                                              <div class="input-group-append">
+                                                <asp:Button ID="modalBtnUpdateStatus" runat="server"
+                                                    CssClass="btn btn-warning"
+                                                    Text="Actualizar"
+                                                    OnClick="modalBtnUpdateStatus_Click"
+                                                    Enabled="false" />
+                                              </div>
+                                            </div>
+                                          </dd>
 
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>ID</label>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="id"
-                                            runat="server" placeholder="ID"></asp:TextBox>
-                                        <asp:Button
-                                            CssClass="btn btn-primary btn-2b399b"
-                                            ID="Button1" runat="server" Text="Go" />
+
+                                          <dt class="col-sm-3">Prioridad</dt>
+                                          <dd class="col-sm-9" id="modalPrioridad"></dd>
+
+                                          <dt class="col-sm-3">Estatus</dt>
+                                          <dd class="col-sm-9" id="modalEstatus"></dd>
+
+
+
+                                          <dt class="col-sm-3">Descripción</dt>
+                                          <dd class="col-sm-9" id="modalDescripcion"></dd>
+                                        </dl>
+ 
+                                      </div>
+                                      <div class="modal-footer">
+                                        <asp:HiddenField ID="modalHiddenTicketId" runat="server" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                      </div>
                                     </div>
+                                  </div>
                                 </div>
+                                <center>
+                                    <h3>Todos los Tickets</h3>
+
+                                </center>
                             </div>
+                        </div>
 
-
+                        <div class="row mb-3">
                             <div class="col-md-8">
-                                <label>Nombre</label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="nombre"
-                                        runat="server" placeholder="Nombre"></asp:TextBox>
-                                </div>
+                                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Buscar por asunto o descripción" aria-label="Buscar"></asp:TextBox>
                             </div>
-
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-4">
-                                <asp:Button ID="bttnAgregar" class="btn btn-lg btn-block btn-success"
-                                    runat="server" Text="Agregar" OnClick="bttnAgregar_Click" />
-
+                            <div class="col-md-2">
+                                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Buscar" OnClick="btnSearch_Click" />
                             </div>
-                            <div class="col-4">
-                                <asp:Button ID="bttnActualizar" class="btn btn-lg btn-block btn-warning"
-                                    runat="server" Text="Actualizar" OnClick="bttnActualizar_Click" />
-
-                            </div>
-
-                            <div class="col-4">
-                                <asp:Button ID="bttnBorrar" class="btn btn-lg btn-block btn-danger"
-                                    runat="server" Text="Borrar" OnClick="bttnBorrar_Click" />
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-                <a href="InicioAgente.aspx"><< Regresar al Inicio</a><br />
-                <br />
-            </div>
-
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-
-
-
-                        <div class="row">
-                            <div class="col">
-                                <center>
-                                    <h3>Historial de  Tickets</h3>
-
-                                </center>
+                            <div class="col-md-2 text-right">
+                                <asp:Button ID="btnClear" runat="server" CssClass="btn btn-secondary" Text="Limpiar" OnClick="btnClear_Click" />
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <img width="150px" src="imgs/allTickets.png" />
-                                </center>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <center>
-                                    <hr>
-                                </center>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col">
-                                <hr />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ServerCon %>" SelectCommand="SELECT * FROM [hd].[Ticket]"></asp:SqlDataSource>
-                            <div class="col">
-                                <asp:GridView class="table table-striped table-bordered"
-                                    ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="TicketId" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None" Width="222px">
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ServerCon %>"
+                                    SelectCommand="SELECT t.TicketId,(u.Nombre + ' ' + ISNULL(u.ApPaterno,'')) AS UsuarioNombre, t.Prioridad as Prioridad, t.CreadoUtc, t.AgenteId, ISNULL(a.nombre,'') AS AgenteNombre, ISNULL(a.estatus, 1) AS AgenteEstatus, t.Estatus, t.Asunto, t.Descripcion FROM [hd].[Ticket] t LEFT JOIN [hd].[Usuario] u ON t.UsuarioId = u.UsuarioId LEFT JOIN [hd].[Agente] a ON t.AgenteId = a.agenteId ORDER BY t.CreadoUtc DESC">
+                                </asp:SqlDataSource>
+                                <!-- DataSource for agent dropdown in tickets -->
+                                <asp:SqlDataSource ID="SqlDataSourceAgentList" runat="server" ConnectionString="<%$ ConnectionStrings:ServerCon %>" SelectCommand="SELECT AgenteId, (nombre + ' | Nivel: ' + CAST(nivel AS nvarchar(10)) + ' | Asignados: ' + CAST(ISNULL(tAbiertos,0) AS nvarchar(10))) AS DisplayText FROM [hd].[agente]"></asp:SqlDataSource>
+                                <asp:GridView class="table table-striped table-bordered table-sm"
+                                    ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="TicketId" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None" Width="100%" AllowPaging="True" OnPageIndexChanging="GridView1_PageIndexChanging" OnRowCommand="GridView1_RowCommand" OnRowDataBound="GridView1_RowDataBound">
                                     <AlternatingRowStyle BackColor="White" />
                                     <Columns>
                                         <asp:BoundField DataField="TicketId" HeaderText="TicketId" InsertVisible="False" ReadOnly="True" SortExpression="TicketId" />
-                                      
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
+                                        <asp:BoundField DataField="Prioridad" HeaderText="Prioridad" SortExpression="Prioridad" />
+                                        <asp:BoundField DataField="UsuarioNombre" HeaderText="Nombre Usuario" SortExpression="UsuarioNombre" ReadOnly="True" />
+                                        <asp:BoundField DataField="CreadoUtc" HeaderText="Fecha Creación" SortExpression="CreadoUtc" ItemStyle-HorizontalAlign="Left" >
+                                        <ItemStyle HorizontalAlign="Left" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="AgenteNombre" HeaderText="Agente Asignado" ReadOnly="True" SortExpression="AgenteNombre" />
+                                        <asp:BoundField DataField="AgenteEstatus" HeaderText="Estatus Agente" SortExpression="AgenteEstatus" />
 
-                                                <div class="container-fluid">
-                                                    <div class="row">
+                                        <asp:BoundField DataField="Asunto" HeaderText="Asunto" SortExpression="Asunto" />
 
-                                                        <div class="col-lg-11">
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    <asp:Label ID="Label1" runat="server" Text='<%# Eval("Asunto") %>' Font-Size="Large"></asp:Label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-
-                                                                <div class="col-12">
-                                                                    Estatus:
-                                                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("Estatus") %>'></asp:Label>
-                                                                    &nbsp;|&nbsp;&nbsp; AgenteID:
-                                                                    <asp:Label ID="Label4" runat="server" Text='<%# Eval("AgenteId") %>'></asp:Label>
-                                                                    &nbsp;Creado:&nbsp;
-                                                                    <asp:Label ID="Label3" runat="server" Text='<%# Eval("CreadoUtc", "{0:g}") %>'></asp:Label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-12">
-                                                                    AgenteId:
-                                                                    <asp:Label ID="Label5" runat="server" Text='<%# Eval("AgenteId") %>'></asp:Label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-12">
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-12">
-
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="col-lg-1">
-                                                            <asp:Image
-                                                                ID="Image1"
-                                                                runat="server"
-                                                                class="img-fluid"
-                                                                ImageUrl='<%# Eval("Adjuntos") %>' />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                         
 
                                     </Columns>
                                     <EditRowStyle BackColor="#2461BF" />

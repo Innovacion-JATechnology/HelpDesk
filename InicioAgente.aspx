@@ -4,8 +4,6 @@
 
 
 
-
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -24,7 +22,7 @@
 
 
                 <div class="col-md-4">
-                    <a href="tiickesxUsuario.aspx" style="text-decoration: none; color: inherit;">
+                    <a href="allUsers.aspx" style="text-decoration: none; color: inherit;">
                         <center>
                             <img height="150px" src="imgs/catalogodeUsuarios.png" />
                             <h4>Ver Usuarios</h4>
@@ -35,17 +33,6 @@
                     </a>
                 </div>
 
-                <div class="col-md-4"> 
-                    <a href="adminAllTickets.aspx" style="text-decoration: none; color: inherit;">
-                        <center>
-                            <img height="150px" src="imgs/todosLosTickets.png" />
-                            <h4>Ver Tickets</h4>
-                            <p class="text-center">
-                                Click para ver todos los Tickets.
-                            </p>
-                        </center>
-                    </a>
-                </div>
 
 
                 <div class="col-md-4">
@@ -59,7 +46,30 @@
                         </center>
                     </a>
                 </div>
-
+                
+                <div class="col-md-4"> 
+                    <a href="adminAllTickets.aspx" style="text-decoration: none; color: inherit;">
+                        <center>
+                            <img height="150px" src="imgs/todosLosTickets.png" />
+                            <h4>Ver Tickets</h4>
+                            <p class="text-center">
+                                Click para ver todos los Tickets.
+                            </p>
+                        </center>
+                    </a>
+                </div>
+                
+                <div class="col-md-4">
+                    <a href="AdminAllAgents.aspx" style="text-decoration: none; color: inherit;">
+                        <center>
+                            <img height="150px" src="imgs/veragentes.png" />
+                            <h4>Ver Agentes</h4>
+                            <p class="text-center">
+                                Ver y modificar todos los Agentes.
+                            </p>
+                        </center>
+                    </a>
+                </div>
 
                 <div class="col-md-4">
                     <a href="agregarAgente.aspx" style="text-decoration: none; color: inherit;">
@@ -73,8 +83,10 @@
                     </a>
                 </div>
 
+                
+
                 <div class="col-md-4">
-                    <a href="enConstruccion.aspx" style="text-decoration: none; color: inherit;">
+                    <a href="ActualizaTablas.aspx" style="text-decoration: none; color: inherit;">
                         <center>
                             <img height="150px" src="imgs/mantenimiento.png" />
                             <h4>Mantenimiento</h4>

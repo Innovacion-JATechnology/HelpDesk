@@ -4,7 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using System.Web.UI;
-using HelpDesk.Security; // Igual que en userlogin: PasswordCrypto
+using HelpDesk.Security;
+using HelpDesk.Utilities; // Igual que en userlogin: PasswordCrypto
 
 namespace HelpDesk
 {
@@ -90,6 +91,7 @@ namespace HelpDesk
                             Session["ID"] = rdr["agenteId"].ToString();
 
                             Response.Redirect("InicioAgente.aspx", false);
+                            Logger.RegistrarInfo($"Agente '{userEmail}' inició sesión exitosamente.");
                         }
                     }
                 }
@@ -97,10 +99,12 @@ namespace HelpDesk
             catch (SqlException)
             {
                 Alert("Ocurrió un error al iniciar sesión (SQL).");
+                Logger.RegistrarError("Error SQL al intentar iniciar sesión para el correo: " + (administrador?.Text ?? "null"));
             }
             catch (Exception)
             {
                 Alert("Ocurrió un error al iniciar sesión.");
+                Logger.RegistrarError("Error 2 general al intentar iniciar sesión para el correo: " + (administrador?.Text ?? "null"));
             }
         }
 

@@ -108,19 +108,19 @@ namespace HelpDesk
         protected void LinkButton11_Click(object sender, EventArgs e)
         {
 
-            Response.Redirect("enConstruccion.aspx");
+            Response.Redirect("ActualizaTablas.aspx");
         }
 
         protected void LinkButton8_Click(object sender, EventArgs e)
         {
             
-                 Response.Redirect("tiickesxUsuario.aspx");
+            Response.Redirect("adminAllTickets.aspx");
         }
 
         protected void LinkButton12_Click(object sender, EventArgs e)
         {
 
-            Response.Redirect("adminAllTickets.aspx");
+                 Response.Redirect("allUsers.aspx");
         }
 
         protected void LinkButton10_Click(object sender, EventArgs e)
