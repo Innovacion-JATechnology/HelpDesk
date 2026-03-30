@@ -1,0 +1,49 @@
+## Visual Studio / MSBuild
+.vs/
+obj/
+bin/
+*.user
+*.suo
+*.cache
+*.pidb
+*.userprefs
+*.usertasks
+packages/
+*.nupkg
+*.snupkg
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## NuGet
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ASP.NET
+App_Data/
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+## macOS
+.DS_Store
+
+## JetBrains Rider
+.idea/
+*.sln.iml
