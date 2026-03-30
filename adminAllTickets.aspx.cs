@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services;
 using HelpDesk.Utilities;
 
 namespace HelpDesk
@@ -74,32 +75,80 @@ ORDER BY t.CreadoUtc DESC";
         }
 
        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType != DataControlRowType.DataRow) return;
+       {
+           if (e.Row.RowType != DataControlRowType.DataRow) return;
 
-            var drv = (System.Data.DataRowView)e.Row.DataItem;
+           var drv = (System.Data.DataRowView)e.Row.DataItem;
 
-            e.Row.Attributes["data-ticketid"] = drv["TicketId"].ToString();
-            e.Row.Attributes["data-asunto"] = drv["Asunto"].ToString();
-            e.Row.Attributes["data-descripcion"] = drv["Descripcion"].ToString();
-            e.Row.Attributes["data-prioridad"] = drv["Prioridad"].ToString();
-            e.Row.Attributes["data-agenteid"] = drv["AgenteId"]?.ToString() ?? "";
-            e.Row.Attributes["data-agentestatus"] = drv["AgenteEstatus"]?.ToString() ?? "1";
+           e.Row.Attributes["data-ticketid"] = drv["TicketId"].ToString();
+           e.Row.Attributes["data-asunto"] = drv["Asunto"].ToString();
+           e.Row.Attributes["data-descripcion"] = drv["Descripcion"].ToString();
+           e.Row.Attributes["data-prioridad"] = drv["Prioridad"].ToString();
+           e.Row.Attributes["data-agenteid"] = drv["AgenteId"]?.ToString() ?? "";
+           e.Row.Attributes["data-estatus"] = drv["Estatus"]?.ToString() ?? "";
+           e.Row.Attributes["data-ticketstatus"] = drv["Estatus"]?.ToString() ?? "1";
 
-            e.Row.Attributes["style"] = "cursor:pointer;";
-            e.Row.Attributes["onclick"] = "rowClick(this)";
+           e.Row.Attributes["style"] = "cursor:pointer;";
+           e.Row.Attributes["onclick"] = "rowClick(this)";
 
-            // Format AgenteEstatus column to show "Activo" or "Inactivo"
-            for (int i = 0; i < e.Row.Cells.Count; i++)
-            {
-                if (GridView1.HeaderRow.Cells[i].Text == "Estatus Agente")
-                {
-                    string statusValue = drv["AgenteEstatus"]?.ToString() ?? "1";
-                    e.Row.Cells[i].Text = statusValue == "1" ? "Activo" : "Inactivo";
-                    break;
-                }
-            }
-        }
+           // Format Estatus column to show user-friendly text with colors
+           for (int i = 0; i < e.Row.Cells.Count; i++)
+           {
+               if (GridView1.HeaderRow.Cells[i].Text == "Estatus")
+               {
+                   string statusValue = drv["Estatus"]?.ToString() ?? "1";
+                   int statusNum = int.Parse(statusValue);
+                   string displayText = TicketStatusTransitions.GetStatusDisplayName(statusNum);
+
+                   // Apply color styling based on status
+                   string bgColor = GetStatusColor(statusNum);
+                   string textColor = GetStatusTextColor(statusNum);
+
+                   e.Row.Cells[i].Text = displayText;
+                   e.Row.Cells[i].Style["background-color"] = bgColor;
+                   e.Row.Cells[i].Style["color"] = textColor;
+                   e.Row.Cells[i].Style["font-weight"] = "bold";
+                   e.Row.Cells[i].Style["text-align"] = "center";
+                   e.Row.Cells[i].Style["border-radius"] = "4px";
+                   e.Row.Cells[i].Style["padding"] = "5px";
+                   break;
+               }
+           }
+       }
+
+       private string GetStatusColor(int status)
+       {
+           switch (status)
+           {
+               case 1: return "#E3F2FD"; // Nuevo - Azul claro
+               case 2: return "#BBDEFB"; // Abierto - Azul
+               case 3: return "#FFE0B2"; // En Progreso - Naranja claro
+               case 4: return "#FFF9C4"; // En Espera - Amarillo claro
+               case 5: return "#FFCCBC"; // Escalado - Rojo claro
+               case 6: return "#C8E6C9"; // Resuelto - Verde claro
+               case 7: return "#81C784"; // Cerrado - Verde oscuro
+               case 8: return "#CE93D8"; // Reabierto - Púrpura
+               case 9: return "#E0E0E0"; // Cancelado - Gris
+               default: return "#FFFFFF"; // Blanco
+           }
+       }
+
+       private string GetStatusTextColor(int status)
+       {
+           switch (status)
+           {
+               case 1: return "#0D47A1"; // Azul oscuro
+               case 2: return "#1565C0"; // Azul oscuro
+               case 3: return "#E65100"; // Naranja oscuro
+               case 4: return "#F57F17"; // Amarillo oscuro
+               case 5: return "#D84315"; // Rojo oscuro
+               case 6: return "#2E7D32"; // Verde oscuro
+               case 7: return "#FFFFFF"; // Blanco
+               case 8: return "#6A1B9A"; // Púrpura oscuro
+               case 9: return "#424242"; // Gris oscuro
+               default: return "#000000"; // Negro
+           }
+       }
        
 
         protected void modalBtnAssign_Click(object sender, EventArgs e)
@@ -155,23 +204,65 @@ ORDER BY t.CreadoUtc DESC";
             }
         }
 
-        protected void modalBtnUpdateStatus_Click(object sender, EventArgs e)
+        protected void modalBtnUpdateTicketStatus_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(modalDdlAgents.SelectedValue, out int agenteId)) return;
-            if (!int.TryParse(modalDdlAgenteStatus.SelectedValue, out int estatus)) return;
-
             try
             {
-                UpdateAgentStatus(agenteId, estatus);
-                Logger.RegistrarInfo($"Agent {agenteId} estatus actualizado a {(estatus == 1 ? "Activo" : "Inactivo")}");
+                if (!int.TryParse(modalHiddenTicketId.Value, out int ticketId))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "parseError",
+                        "alert('Error: TicketId inválido');", true);
+                    return;
+                }
 
-                // ✅ Redirect to refresh page cleanly without postback
-                Response.Redirect(Request.Url.ToString());
+                if (!int.TryParse(modalDdlTicketStatus.SelectedValue, out int newStatusValue))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "parseError",
+                        "alert('Error: Estado inválido');", true);
+                    return;
+                }
+
+                // Get current ticket status
+                var currentStatus = GetCurrentTicketStatus(ticketId);
+                var newStatus = (TicketStatus)newStatusValue;
+
+                // Get user role
+                string userRole = Session["role"]?.ToString() ?? "usuario";
+                string userName = Session["username"]?.ToString() ?? "Unknown";
+
+                Logger.RegistrarInfo($"[UpdateStatus] TicketId: {ticketId}, CurrentStatus: {currentStatus}, NewStatus: {newStatus}, UserRole: {userRole}");
+
+                // Validate transition based on role
+                bool canTransition = TicketStatusTransitions.CanTransitionTo(currentStatus, newStatus, userRole);
+                Logger.RegistrarInfo($"[UpdateStatus] CanTransition: {canTransition}");
+
+                if (!canTransition)
+                {
+                    string currentStatusName = TicketStatusTransitions.GetStatusDisplayName(currentStatus);
+                    string newStatusName = TicketStatusTransitions.GetStatusDisplayName(newStatus);
+                    Logger.RegistrarInfo($"[UpdateStatus] Transición NO permitida de {currentStatusName} a {newStatusName} para rol {userRole}");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "invalidTransition",
+                        $"alert('No se puede cambiar de {currentStatusName} a {newStatusName}');", true);
+                    return;
+                }
+
+                // Update the status
+                UpdateTicketStatus(ticketId, (int)newStatus);
+
+                // Log the status change
+                string statusChangeLog = $"Ticket {ticketId}: {TicketStatusTransitions.GetStatusDisplayName(currentStatus)} → {TicketStatusTransitions.GetStatusDisplayName(newStatus)} (Usuario: {userName}, Rol: {userRole})";
+                Logger.RegistrarInfo(statusChangeLog);
+
+                // Show success message
+                ScriptManager.RegisterStartupScript(this, GetType(), "successMsg",
+                    "alert('Estado actualizado correctamente');", true);
+
+                // Refresh the grid
+                GridView1.DataBind();
             }
             catch (Exception ex)
             {
-                // Handle status update errors
-                Logger.RegistrarError($"Error updating status for agent {agenteId} to {estatus}", ex);
+                Logger.RegistrarError($"Error updating status for ticket {modalHiddenTicketId.Value}", ex);
                 ScriptManager.RegisterStartupScript(this, GetType(), "statusError",
                     $"alert('Error al actualizar estatus: {ex.Message}');", true);
             }
@@ -253,6 +344,94 @@ WHERE agenteId = @id";
                 cmd.Parameters.AddWithValue("@id", agenteId);
                 cn.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void UpdateTicketStatus(int ticketId, int estatus)
+        {
+            try
+            {
+                using (var cn = new SqlConnection(strcon))
+                using (var cmd = cn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+UPDATE [hd].[Ticket]
+SET Estatus = @estatus
+WHERE TicketId = @id";
+                    cmd.Parameters.AddWithValue("@estatus", estatus);
+                    cmd.Parameters.AddWithValue("@id", ticketId);
+                    cn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception($"No se actualizó ningún ticket. TicketId: {ticketId}");
+                    }
+
+                    Logger.RegistrarInfo($"Ticket {ticketId} actualizado exitosamente a estado {estatus}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.RegistrarError($"Error en UpdateTicketStatus para ticket {ticketId}: {ex.Message}", ex);
+                throw; // Re-lanzar para que se maneje en el método llamador
+            }
+        }
+
+        /// <summary>
+        /// WebMethod to get valid next states for a ticket based on current status and user role
+        /// Used by JavaScript to populate dropdown dynamically
+        /// </summary>
+        [WebMethod(EnableSession = true)]
+        public static List<TicketStatusOption> GetValidTicketStatuses(int currentStatusValue)
+        {
+            var result = new List<TicketStatusOption>();
+
+            try
+            {
+                // Get current HTTP context to access Session
+                HttpContext context = HttpContext.Current;
+                string userRole = context?.Session?["role"]?.ToString() ?? "usuario";
+
+                // Log para debugging
+                Logger.RegistrarInfo($"GetValidTicketStatuses - CurrentStatus: {currentStatusValue}, UserRole: {userRole}");
+
+                var currentStatus = (TicketStatus)currentStatusValue;
+                var validStates = TicketStatusTransitions.GetValidNextStates(currentStatus, userRole);
+
+                foreach (var state in validStates)
+                {
+                    result.Add(new TicketStatusOption
+                    {
+                        Value = (int)state,
+                        Text = TicketStatusTransitions.GetStatusDisplayName(state)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.RegistrarError($"Error en GetValidTicketStatuses: {ex.Message}", ex);
+            }
+
+            return result;
+        }
+
+        public class TicketStatusOption
+        {
+            public int Value { get; set; }
+            public string Text { get; set; }
+        }
+
+        private TicketStatus GetCurrentTicketStatus(int ticketId)
+        {
+            using (var cn = new SqlConnection(strcon))
+            using (var cmd = cn.CreateCommand())
+            {
+                cmd.CommandText = "SELECT Estatus FROM [hd].[Ticket] WHERE TicketId = @id";
+                cmd.Parameters.AddWithValue("@id", ticketId);
+                cn.Open();
+                var result = cmd.ExecuteScalar();
+                return (TicketStatus)Convert.ToInt32(result ?? 1);
             }
         }
 

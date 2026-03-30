@@ -42,22 +42,22 @@ namespace HelpDesk
         protected global::System.Web.UI.WebControls.HiddenField modalHiddenTicketId;
 
         /// <summary>
-        /// modalDdlAgenteStatus control.
+        /// modalDdlTicketStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList modalDdlAgenteStatus;
+        protected global::System.Web.UI.WebControls.DropDownList modalDdlTicketStatus;
 
         /// <summary>
-        /// modalBtnUpdateStatus control.
+        /// modalBtnUpdateTicketStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button modalBtnUpdateStatus;
+        protected global::System.Web.UI.WebControls.Button modalBtnUpdateTicketStatus;
 
         /// <summary>
         /// txtSearch control.

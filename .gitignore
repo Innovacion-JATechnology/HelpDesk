@@ -11,3 +11,14 @@ obj/
 *.user
 *.userosscache
 *.sln.docstates
+
+
+# ignorar los archivos extras
+*.md
+*.txt
+
+# Ignorar logs
+Logs/*.log
+
+# Ignorar cualquier log
+*.log

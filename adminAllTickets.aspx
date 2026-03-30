@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="adminAllTickets.aspx.cs" Inherits="HelpDesk.adminAllTickets" %>
- 
-  
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-   
-  
+
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -64,7 +64,6 @@
                                 if (sel) {
                                     var current = row.getAttribute('data-agenteid') || '';
                                     var agentName = row.getAttribute('data-agente') || '';
-                                    var agentStatus = row.getAttribute('data-agentestatus') || '1';
                                     sel.setAttribute('data-current', current);
 
                                     try { sel.value = current; } catch (e) { }
@@ -83,11 +82,15 @@
                                     if (typeof onModalAgentChange === 'function') onModalAgentChange(sel);
                                 }
 
-                                // set agent status dropdown
+                                // set ticket status dropdown
                                 var statusDdl = document.getElementById(window.modalDdlStatusId);
                                 if (statusDdl) {
-                                    statusDdl.setAttribute('data-current-status', agentStatus);
-                                    try { statusDdl.value = agentStatus; } catch (e) { }
+                                    var ticketStatus = row.getAttribute('data-ticketstatus') || '1';
+                                    statusDdl.setAttribute('data-current-status', ticketStatus);
+
+                                    // Load valid states based on current status and user role
+                                    loadValidStatusOptions(ticketStatus);
+
                                     if (typeof onModalStatusChange === 'function') onModalStatusChange(statusDdl);
                                 }
 
@@ -126,12 +129,63 @@
                                 btn.disabled = (sel.value === current);
                             }
 
+                            function loadValidStatusOptions(currentStatusValue) {
+                                var statusDdl = document.getElementById(window.modalDdlStatusId);
+                                if (!statusDdl) return;
+
+                                // Call server-side WebMethod to get valid statuses based on role and current status
+                                PageMethods.GetValidTicketStatuses(
+                                    parseInt(currentStatusValue),
+                                    function(result) {
+                                        // Clear dropdown except for placeholder
+                                        statusDdl.options.length = 0;
+
+                                        // Add option for current status as placeholder
+                                        var currentStatusText = getStatusName(parseInt(currentStatusValue));
+                                        var opt = document.createElement('option');
+                                        opt.value = currentStatusValue;
+                                        opt.text = currentStatusText + ' (Actual)';
+                                        opt.disabled = true;
+                                        statusDdl.appendChild(opt);
+
+                                        // Add valid next states
+                                        if (result && result.length > 0) {
+                                            for (var i = 0; i < result.length; i++) {
+                                                opt = document.createElement('option');
+                                                opt.value = result[i].Value;
+                                                opt.text = result[i].Text;
+                                                statusDdl.appendChild(opt);
+                                            }
+                                            statusDdl.value = currentStatusValue;
+                                        }
+                                    },
+                                    function(error) {
+                                        console.error('Error loading valid statuses:', error);
+                                    }
+                                );
+                            }
+
+                            function getStatusName(statusValue) {
+                                switch (statusValue) {
+                                    case 1: return 'Nuevo';
+                                    case 2: return 'Abierto';
+                                    case 3: return 'En Progreso';
+                                    case 4: return 'En Espera';
+                                    case 5: return 'Escalado';
+                                    case 6: return 'Resuelto';
+                                    case 7: return 'Cerrado';
+                                    case 8: return 'Reabierto';
+                                    case 9: return 'Cancelado';
+                                    default: return 'Desconocido';
+                                }
+                            }
+
                             // expose client IDs to script for use when rows click
                             window.modalDdlId = '<%= modalDdlAgents.ClientID %>';
                             window.modalBtnId = '<%= modalBtnAssign.ClientID %>';
                             window.modalHiddenId = '<%= modalHiddenTicketId.ClientID %>';
-                            window.modalDdlStatusId = '<%= modalDdlAgenteStatus.ClientID %>';
-                            window.modalBtnStatusId = '<%= modalBtnUpdateStatus.ClientID %>';
+                            window.modalDdlStatusId = '<%= modalDdlTicketStatus.ClientID %>';
+                            window.modalBtnStatusId = '<%= modalBtnUpdateTicketStatus.ClientID %>';
                         </script>
 
                         <div class="row">
@@ -176,18 +230,25 @@
   </div>
 </dd>
 
-                                          <dt class="col-sm-3">Estatus Agente</dt>
+                                          <dt class="col-sm-3">Estatus Ticket</dt>
                                           <dd class="col-sm-9">
                                             <div class="input-group">
-                                              <asp:DropDownList ID="modalDdlAgenteStatus" runat="server" CssClass="form-control" onchange="onModalStatusChange(this)">
-                                                <asp:ListItem Text="Activo" Value="1" />
-                                                <asp:ListItem Text="Inactivo" Value="0" />
+                                              <asp:DropDownList ID="modalDdlTicketStatus" runat="server" CssClass="form-control" onchange="onModalStatusChange(this)">
+                                                <asp:ListItem Text="Nuevo" Value="1" />
+                                                <asp:ListItem Text="Abierto" Value="2" />
+                                                <asp:ListItem Text="En Progreso" Value="3" />
+                                                <asp:ListItem Text="En Espera" Value="4" />
+                                                <asp:ListItem Text="Escalado" Value="5" />
+                                                <asp:ListItem Text="Resuelto" Value="6" />
+                                                <asp:ListItem Text="Cerrado" Value="7" />
+                                                <asp:ListItem Text="Reabierto" Value="8" />
+                                                <asp:ListItem Text="Cancelado" Value="9" />
                                               </asp:DropDownList>
                                               <div class="input-group-append">
-                                                <asp:Button ID="modalBtnUpdateStatus" runat="server"
+                                                <asp:Button ID="modalBtnUpdateTicketStatus" runat="server"
                                                     CssClass="btn btn-warning"
                                                     Text="Actualizar"
-                                                    OnClick="modalBtnUpdateStatus_Click"
+                                                    OnClick="modalBtnUpdateTicketStatus_Click"
                                                     Enabled="false" />
                                               </div>
                                             </div>
@@ -252,8 +313,7 @@
                                         <ItemStyle HorizontalAlign="Left" />
                                         </asp:BoundField>
                                         <asp:BoundField DataField="AgenteNombre" HeaderText="Agente Asignado" ReadOnly="True" SortExpression="AgenteNombre" />
-                                        <asp:BoundField DataField="AgenteEstatus" HeaderText="Estatus Agente" SortExpression="AgenteEstatus" />
-
+                                        <asp:BoundField DataField="Estatus" HeaderText="Estatus" SortExpression="Estatus" />
                                         <asp:BoundField DataField="Asunto" HeaderText="Asunto" SortExpression="Asunto" />
 
                                          
