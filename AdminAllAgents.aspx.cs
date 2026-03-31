@@ -50,6 +50,7 @@ namespace HelpDesk
             string tickets = drv["TicketsAbiertos"]?.ToString() ?? "0";
             string telefono = drv["telefono"]?.ToString() ?? "";
             string habilidades = drv["habilidades"]?.ToString() ?? "";
+            string estatus = drv["Estatus"]?.ToString() ?? "1";
 
             // atributos data-* para JS
             e.Row.Attributes["class"] = (e.Row.Attributes["class"] + " row-click").Trim();
@@ -59,6 +60,7 @@ namespace HelpDesk
             e.Row.Attributes["data-tickets"] = tickets;
             e.Row.Attributes["data-telefono"] = telefono;
             e.Row.Attributes["data-habilidades"] = habilidades;
+            e.Row.Attributes["data-estatus"] = estatus;
 
             e.Row.Attributes["onclick"] = "rowClick(this)";
         }
@@ -78,6 +80,9 @@ namespace HelpDesk
             string telefono = modalTxtTelefono.Text?.Trim() ?? "";
             string habilidades = modalTxtHabilidades.Text?.Trim() ?? "";
 
+            int estatus = 1;
+            if (!int.TryParse(modalDdlEstatus.SelectedValue, out estatus)) estatus = 1;
+
             using (var cn = new SqlConnection(cs))
             using (var cmd = cn.CreateCommand())
             {
@@ -86,20 +91,23 @@ UPDATE [hd].[Agente]
 SET Nombre = @Nombre,
     Nivel = @Nivel,
     Telefono = @Telefono,
-    Habilidades = @Habilidades
+    Habilidades = @Habilidades,
+    Estatus = @Estatus
 WHERE AgenteId = @AgenteId;";
 
                 cmd.Parameters.AddWithValue("@Nombre", nombre);
                 cmd.Parameters.AddWithValue("@Nivel", nivel);
                 cmd.Parameters.AddWithValue("@Telefono", (object)telefono ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Habilidades", (object)habilidades ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Estatus", estatus);
                 cmd.Parameters.AddWithValue("@AgenteId", agenteId);
 
                 cn.Open();
                 cmd.ExecuteNonQuery();
             }
 
-            // Rebind de la tabla
+            // Rebind de la tabla - Limpia caché
+            SqlDataSourceAgents.DataBind();
             GridViewAgents.DataBind();
 
             // Cierra el modal en el cliente
@@ -113,15 +121,15 @@ WHERE AgenteId = @AgenteId;";
                 using (var cn = new SqlConnection(cs))
                 using (var cmd = cn.CreateCommand())
                 {
-                    // Actualiza tAbiertos con el count de tickets abiertos asignados a cada agente
-                    // Estatus = 1 representa "Abierto"
+                    // Actualiza tAbiertos con el count de tickets asignados a cada agente
+                    // Revisa todos los tickets abiertos/activos (Estatus != 7 y != 9, es decir no cerrados ni cancelados)
                     cmd.CommandText = @"
 UPDATE [hd].[Agente]
 SET tAbiertos = (
     SELECT COUNT(*)
     FROM [hd].[Ticket]
     WHERE [hd].[Ticket].AgenteId = [hd].[Agente].AgenteId
-    AND [hd].[Ticket].Estatus = 1
+    AND [hd].[Ticket].Estatus IN (1, 2, 3, 4, 5, 8)
 );";
 
                     cn.Open();
@@ -129,6 +137,7 @@ SET tAbiertos = (
                 }
 
                 // Rebind de la tabla para mostrar los cambios
+                SqlDataSourceAgents.DataBind();
                 GridViewAgents.DataBind();
 
                 // Mostrar mensaje de éxito

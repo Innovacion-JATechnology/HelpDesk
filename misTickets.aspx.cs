@@ -285,12 +285,30 @@ namespace HelpDesk
         private static string NullToEmpty(object v) =>
             v == DBNull.Value ? "" : Convert.ToString(v);
 
-        private static string ToDateTimeStr(object v)
+        protected string ToDateTimeStr(object v)
         {
             if (v == DBNull.Value || v == null) return "";
             if (DateTime.TryParse(Convert.ToString(v), out var dt))
-                return dt.ToString("dd/MM/yyyy HH:mm", CultureInfo.GetCultureInfo("es-MX"));
+            {
+                // Convertir de UTC a hora local
+                DateTime localDate = ConvertUtcToLocal(dt);
+                return localDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.GetCultureInfo("es-MX"));
+            }
             return Convert.ToString(v);
+        }
+
+        /// <summary>
+        /// Convierte una fecha UTC a la hora local del servidor/usuario
+        /// </summary>
+        private DateTime ConvertUtcToLocal(DateTime utcDate)
+        {
+            // Si la fecha no tiene especificado que es UTC, asumimos que lo es
+            DateTime dateToConvert = utcDate.Kind == DateTimeKind.Utc
+                ? utcDate
+                : DateTime.SpecifyKind(utcDate, DateTimeKind.Utc);
+
+            // Convertir a hora local
+            return TimeZoneInfo.ConvertTimeFromUtc(dateToConvert, TimeZoneInfo.Local);
         }
 
 

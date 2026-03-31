@@ -14,6 +14,7 @@
         window.modalTxtAbiertos = '<%= modalTxtAbiertos.ClientID %>';
         window.modalTxtTelefono = '<%= modalTxtTelefono.ClientID %>';
         window.modalTxtHabilidades = '<%= modalTxtHabilidades.ClientID %>';
+        window.modalDdlEstatus = '<%= modalDdlEstatus.ClientID %>';
 
         // Abre modal y rellena con los atributos data-* de la fila
         function rowClick(tr) {
@@ -26,6 +27,7 @@
                 var abiertos = get('tickets');
                 var telefono = get('telefono');
                 var habilidades = get('habilidades');
+                var estatus = get('estatus');
 
                 // Campos del modal
                 var hf     = document.getElementById(window.modalHfAgenteId);
@@ -34,6 +36,7 @@
                 var txtAb  = document.getElementById(window.modalTxtAbiertos);
                 var txtTe  = document.getElementById(window.modalTxtTelefono);
                 var txtHa  = document.getElementById(window.modalTxtHabilidades);
+                var ddlEs  = document.getElementById(window.modalDdlEstatus);
 
                 if (hf)    hf.value = agenteId;
                 if (txtNo) txtNo.value = nombre;
@@ -41,6 +44,7 @@
                 if (txtAb) txtAb.value = abiertos;
                 if (txtTe) txtTe.value = telefono;
                 if (txtHa) txtHa.value = habilidades;
+                if (ddlEs) ddlEs.value = estatus;
 
                 // Mostrar modal
                 $('#agenteModal').modal('show');
@@ -84,6 +88,13 @@
               <div class="form-group col-md-6">
                 <label>Teléfono</label>
                 <asp:TextBox ID="modalTxtTelefono" runat="server" CssClass="form-control" MaxLength="25" />
+              </div>
+              <div class="form-group col-md-6">
+                <label>Estatus</label>
+                <asp:DropDownList ID="modalDdlEstatus" runat="server" CssClass="form-control">
+                  <asp:ListItem Text="Activo" Value="1" />
+                  <asp:ListItem Text="Inactivo" Value="0" />
+                </asp:DropDownList>
               </div>
             </div>
 
@@ -151,7 +162,8 @@
                             a.nivel,
                             ISNULL(a.tAbiertos, 0) AS TicketsAbiertos,
                             ISNULL(a.telefono, '') AS telefono,
-                            ISNULL(a.habilidades, '') AS habilidades
+                            ISNULL(a.habilidades, '') AS habilidades,
+                            ISNULL(a.estatus, 1) AS Estatus
                         FROM [hd].[Agente] a
                         WHERE
                             (@q IS NULL OR @q = '')
@@ -177,6 +189,7 @@
                         <asp:BoundField DataField="nombre" HeaderText="Nombre" SortExpression="nombre" />
                         <asp:BoundField DataField="nivel" HeaderText="Nivel" SortExpression="nivel" />
                         <asp:BoundField DataField="TicketsAbiertos" HeaderText="Tickets Asignados" SortExpression="TicketsAbiertos" />
+                        <asp:BoundField DataField="Estatus" HeaderText="Estatus" SortExpression="Estatus" />
                     </Columns>
 
                     <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />

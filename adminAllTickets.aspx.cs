@@ -21,22 +21,45 @@ namespace HelpDesk
             if (!IsPostBack)
             {
                 txtSearch.Text = string.Empty;
-                LoadTickets(null);
+                txtFechaFrom.Text = string.Empty;
+                txtFechaTo.Text = string.Empty;
+                lbEstatus.ClearSelection();
+                LoadTickets(null, null, null, null);
             }
         }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            LoadTickets(txtSearch.Text);
+            LoadTickets(txtSearch.Text, null, null, null);
         }
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
             txtSearch.Text = string.Empty;
-            LoadTickets(null);
+            txtFechaFrom.Text = string.Empty;
+            txtFechaTo.Text = string.Empty;
+            lbEstatus.ClearSelection();
+            LoadTickets(null, null, null, null);
         }
 
-        private void LoadTickets(string q)
+        protected void btnApplyFilters_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text;
+            string fechaFrom = txtFechaFrom.Text;
+            string fechaTo = txtFechaTo.Text;
+
+            // Get selected status values
+            List<string> selectedStatuses = lbEstatus.Items.Cast<ListItem>()
+                .Where(x => x.Selected)
+                .Select(x => x.Value)
+                .ToList();
+
+            string estatus = selectedStatuses.Count > 0 ? string.Join(",", selectedStatuses) : null;
+
+            LoadTickets(searchText, fechaFrom, fechaTo, estatus);
+        }
+
+        private void LoadTickets(string q, string dateFrom, string dateTo, string status)
         {
             string baseSql = @"
 SELECT t.TicketId,
@@ -54,21 +77,66 @@ LEFT JOIN [hd].[Usuario] u ON t.UsuarioId = u.UsuarioId
 LEFT JOIN [hd].[Agente] a ON t.AgenteId = a.agenteId
 ";
 
-            if (string.IsNullOrWhiteSpace(q))
-            {
-                SqlDataSource1.SelectCommand = baseSql + " ORDER BY t.CreadoUtc ASC";
-                SqlDataSource1.SelectParameters.Clear();
-            }
-            else
-            {
-                SqlDataSource1.SelectCommand = baseSql + @"
-WHERE t.Asunto LIKE '%' + @q + '%'
-   OR t.Descripcion LIKE '%' + @q + '%'
-ORDER BY t.CreadoUtc DESC";
+            SqlDataSource1.SelectParameters.Clear();
+            List<string> whereConditions = new List<string>();
 
-                SqlDataSource1.SelectParameters.Clear();
+            // Build WHERE clause based on filters
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                whereConditions.Add("(t.Asunto LIKE '%' + @q + '%' OR t.Descripcion LIKE '%' + @q + '%')");
                 SqlDataSource1.SelectParameters.Add("q", q);
             }
+
+            if (!string.IsNullOrWhiteSpace(dateFrom))
+            {
+                if (DateTime.TryParse(dateFrom, out DateTime fromDate))
+                {
+                    // Convert local date to UTC start of day
+                    DateTime utcFromDate = TimeZoneInfo.ConvertTimeToUtc(fromDate, TimeZoneInfo.Local);
+                    whereConditions.Add("t.CreadoUtc >= @dateFrom");
+                    SqlDataSource1.SelectParameters.Add("dateFrom", utcFromDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(dateTo))
+            {
+                if (DateTime.TryParse(dateTo, out DateTime toDate))
+                {
+                    // Convert local date to UTC end of day
+                    DateTime utcToDate = TimeZoneInfo.ConvertTimeToUtc(toDate.AddDays(1).AddSeconds(-1), TimeZoneInfo.Local);
+                    whereConditions.Add("t.CreadoUtc <= @dateTo");
+                    SqlDataSource1.SelectParameters.Add("dateTo", utcToDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                // Status is now a comma-separated string of status values (e.g., "1,2,3")
+                string[] statusValues = status.Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                if (statusValues.Length > 0)
+                {
+                    // Build IN clause: t.Estatus IN (1, 2, 3)
+                    List<string> statusPlaceholders = new List<string>();
+                    for (int i = 0; i < statusValues.Length; i++)
+                    {
+                        string paramName = "status" + i;
+                        statusPlaceholders.Add("@" + paramName);
+                        SqlDataSource1.SelectParameters.Add(paramName, statusValues[i]);
+                    }
+
+                    whereConditions.Add("t.Estatus IN (" + string.Join(", ", statusPlaceholders) + ")");
+                }
+            }
+
+            // Combine WHERE conditions
+            string whereClause = string.Empty;
+            if (whereConditions.Count > 0)
+            {
+                whereClause = " WHERE " + string.Join(" AND ", whereConditions);
+            }
+
+            SqlDataSource1.SelectCommand = baseSql + whereClause + " ORDER BY t.CreadoUtc DESC";
 
             GridView1.PageIndex = 0;
             GridView1.DataBind();
@@ -88,32 +156,45 @@ ORDER BY t.CreadoUtc DESC";
            e.Row.Attributes["data-estatus"] = drv["Estatus"]?.ToString() ?? "";
            e.Row.Attributes["data-ticketstatus"] = drv["Estatus"]?.ToString() ?? "1";
 
-           e.Row.Attributes["style"] = "cursor:pointer;";
-           e.Row.Attributes["onclick"] = "rowClick(this)";
+           // Convert UTC date to local time for display
+            if (drv["CreadoUtc"] != DBNull.Value && DateTime.TryParse(drv["CreadoUtc"].ToString(), out DateTime creadoUtcDate))
+            {
+                DateTime localDate = ConvertUtcToLocal(creadoUtcDate);
+                e.Row.Attributes["data-creado"] = localDate.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                e.Row.Attributes["data-creado"] = "";
+            }
 
-           // Format Estatus column to show user-friendly text with colors
-           for (int i = 0; i < e.Row.Cells.Count; i++)
-           {
-               if (GridView1.HeaderRow.Cells[i].Text == "Estatus")
-               {
-                   string statusValue = drv["Estatus"]?.ToString() ?? "1";
-                   int statusNum = int.Parse(statusValue);
-                   string displayText = TicketStatusTransitions.GetStatusDisplayName(statusNum);
+            e.Row.Attributes["style"] = "cursor:pointer;";
+            e.Row.Attributes["onclick"] = "rowClick(this)";
 
-                   // Apply color styling based on status
-                   string bgColor = GetStatusColor(statusNum);
-                   string textColor = GetStatusTextColor(statusNum);
+            // Format Estatus column to show user-friendly text with colors
+            for (int i = 0; i < e.Row.Cells.Count; i++)
+            {
+                string headerText = GridView1.HeaderRow.Cells[i].Text;
 
-                   e.Row.Cells[i].Text = displayText;
-                   e.Row.Cells[i].Style["background-color"] = bgColor;
-                   e.Row.Cells[i].Style["color"] = textColor;
-                   e.Row.Cells[i].Style["font-weight"] = "bold";
-                   e.Row.Cells[i].Style["text-align"] = "center";
-                   e.Row.Cells[i].Style["border-radius"] = "4px";
-                   e.Row.Cells[i].Style["padding"] = "5px";
-                   break;
-               }
-           }
+                // Format status column
+                if (headerText == "Estatus")
+                {
+                    string statusValue = drv["Estatus"]?.ToString() ?? "1";
+                    int statusNum = int.Parse(statusValue);
+                    string displayText = TicketStatusTransitions.GetStatusDisplayName(statusNum);
+
+                    // Apply color styling based on status
+                    string bgColor = GetStatusColor(statusNum);
+                    string textColor = GetStatusTextColor(statusNum);
+
+                    e.Row.Cells[i].Text = displayText;
+                    e.Row.Cells[i].Style["background-color"] = bgColor;
+                    e.Row.Cells[i].Style["color"] = textColor;
+                    e.Row.Cells[i].Style["font-weight"] = "bold";
+                    e.Row.Cells[i].Style["text-align"] = "center";
+                    e.Row.Cells[i].Style["border-radius"] = "4px";
+                    e.Row.Cells[i].Style["padding"] = "5px";
+                }
+            }
        }
 
        private string GetStatusColor(int status)
@@ -517,6 +598,37 @@ WHERE agenteId = @id";
             }
 
             return previousAgent;
+        }
+
+        /// <summary>
+        /// Convierte una fecha UTC a la hora local del servidor/usuario
+        /// </summary>
+        protected DateTime ConvertUtcToLocal(DateTime utcDate)
+        {
+            // Si la fecha no tiene especificado que es UTC, asumimos que lo es
+            DateTime dateToConvert = utcDate.Kind == DateTimeKind.Utc
+                ? utcDate
+                : DateTime.SpecifyKind(utcDate, DateTimeKind.Utc);
+
+            // Convertir a hora local
+            return TimeZoneInfo.ConvertTimeFromUtc(dateToConvert, TimeZoneInfo.Local);
+        }
+
+        /// <summary>
+        /// Convierte una fecha UTC a formato local de texto
+        /// </summary>
+        protected string FormatDateLocal(object dateValue)
+        {
+            if (dateValue == null || dateValue == DBNull.Value)
+                return "";
+
+            if (DateTime.TryParse(dateValue.ToString(), out DateTime date))
+            {
+                DateTime localDate = ConvertUtcToLocal(date);
+                return localDate.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
+            return "";
         }
     }
 }

@@ -284,7 +284,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Buscar por asunto o descripción" aria-label="Buscar"></asp:TextBox>
                             </div>
                             <div class="col-md-2">
@@ -292,6 +292,38 @@
                             </div>
                             <div class="col-md-2 text-right">
                                 <asp:Button ID="btnClear" runat="server" CssClass="btn btn-secondary" Text="Limpiar" OnClick="btnClear_Click" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label for="txtFechaFrom" class="form-label">Fecha Desde:</label>
+                                <asp:TextBox ID="txtFechaFrom" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha desde"></asp:TextBox>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="txtFechaTo" class="form-label">Fecha Hasta:</label>
+                                <asp:TextBox ID="txtFechaTo" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha hasta"></asp:TextBox>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="lbEstatus" class="form-label">Estados (Multiselección):</label>
+                                <asp:ListBox ID="lbEstatus" runat="server" CssClass="form-control" SelectionMode="Multiple" Rows="5">
+                                    <asp:ListItem Text="Nuevo" Value="1" />
+                                    <asp:ListItem Text="Abierto" Value="2" />
+                                    <asp:ListItem Text="En Progreso" Value="3" />
+                                    <asp:ListItem Text="En Espera" Value="4" />
+                                    <asp:ListItem Text="Escalado" Value="5" />
+                                    <asp:ListItem Text="Resuelto" Value="6" />
+                                    <asp:ListItem Text="Cerrado" Value="7" />
+                                    <asp:ListItem Text="Reabierto" Value="8" />
+                                    <asp:ListItem Text="Cancelado" Value="9" />
+                                </asp:ListBox>
+                                <small class="form-text text-muted d-block mt-1">Ctrl+Click para multi-selección</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div>
+                                    <asp:Button ID="btnApplyFilters" runat="server" CssClass="btn btn-info btn-block" Text="Aplicar Filtros" OnClick="btnApplyFilters_Click" />
+                                </div>
                             </div>
                         </div>
 
@@ -309,9 +341,12 @@
                                         <asp:BoundField DataField="TicketId" HeaderText="TicketId" InsertVisible="False" ReadOnly="True" SortExpression="TicketId" />
                                         <asp:BoundField DataField="Prioridad" HeaderText="Prioridad" SortExpression="Prioridad" />
                                         <asp:BoundField DataField="UsuarioNombre" HeaderText="Nombre Usuario" SortExpression="UsuarioNombre" ReadOnly="True" />
-                                        <asp:BoundField DataField="CreadoUtc" HeaderText="Fecha Creación" SortExpression="CreadoUtc" ItemStyle-HorizontalAlign="Left" >
-                                        <ItemStyle HorizontalAlign="Left" />
-                                        </asp:BoundField>
+                                        <asp:TemplateField HeaderText="Fecha Creación" SortExpression="CreadoUtc">
+                                            <ItemTemplate>
+                                                <%# FormatDateLocal(Eval("CreadoUtc")) %>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Left" />
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="AgenteNombre" HeaderText="Agente Asignado" ReadOnly="True" SortExpression="AgenteNombre" />
                                         <asp:BoundField DataField="Estatus" HeaderText="Estatus" SortExpression="Estatus" />
                                         <asp:BoundField DataField="Asunto" HeaderText="Asunto" SortExpression="Asunto" />

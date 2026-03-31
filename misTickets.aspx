@@ -125,7 +125,7 @@
                                                                 &nbsp;|&nbsp; AgenteID:
                                                                 <asp:Label ID="Label4" runat="server" Text='<%# Eval("AgenteId") %>' />
                                                                 &nbsp;|&nbsp; Creado:
-                                                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("CreadoUtc", "{0:g}") %>' />
+                                                                <asp:Label ID="Label3" runat="server" Text='<%# ToDateTimeStr(Eval("CreadoUtc")) %>' />
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-1 text-lg-right text-left pl-lg-2">
