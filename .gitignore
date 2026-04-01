@@ -1,0 +1,24 @@
+
+# Ignore Visual Studio folder
+.vs/
+
+# Ignore build output folders
+bin/
+obj/
+
+# Ignore user-specific VS files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
+# ignorar los archivos extras
+*.md
+*.txt
+
+# Ignorar logs
+Logs/*.log
+
+# Ignorar cualquier log
+*.log

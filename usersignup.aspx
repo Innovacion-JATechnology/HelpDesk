@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h3>Registro</h3>
+                                    <h3>Registro de Usuarios</h3>
                                 </center>
                             </div>
                         </div>
@@ -35,26 +35,30 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <label>Nombre(s)</label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox3"
-                                        runat="server" placeholder="Nombre(s)"></asp:TextBox>
-                                </div>
-                            </div>
+                            <div class="col-md-12">
+    <label>Nombre(s)</label>
+    <div class="form-group">
+        <asp:TextBox CssClass="form-control" ID="nombre"
+            runat="server" placeholder="Nombre(s)"></asp:TextBox>
+    </div>
+</div>
+                        </div>
 
-                            <div class="col-md-4">
+                        <div class="row">
+                            
+
+                            <div class="col-md-6">
                                 <label>Apellido Paterno</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox4"
-                                        runat="server" placeholder="Apellido Paterno"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="paterno"
+                                        runat="server" placeholder="Apellido Paterno" ></asp:TextBox>
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label>Apellido Materno</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox9"
+                                    <asp:TextBox CssClass="form-control" ID="materno"
                                         runat="server" placeholder="Apellido Materno"></asp:TextBox>
                                 </div>
                             </div>
@@ -64,47 +68,36 @@
                             <div class="col-md-6">
                                 <label>Correo-e</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox5"
+                                    <asp:TextBox CssClass="form-control" ID="correo"
                                         runat="server" placeholder="Correo-e" TextMode="Email"></asp:TextBox>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label>Numero de Contacto</label>
+                                <label>Teléfono de Contacto</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox6"
-                                        runat="server" placeholder="Número de Contacto" TextMode="Phone"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="contacto"
+                                        runat="server" placeholder="Teléfono de Contacto" TextMode="Phone"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label>Empresa</label>
                                 <div class="form-group">
-                                    <asp:DropDownList class="form-control" ID="DropDownList1" runat="server">
-                                        <asp:ListItem Text="Select" Value="Select" />
-                                        <asp:ListItem Text="Cepesmar" Value="Cepesmar" />
-                                        <asp:ListItem Text="JA Technology" Value="JA Technology" />
-                                        <asp:ListItem Text="JA Carrier" Value="JA Carrier" />
-                                        <asp:ListItem Text="JA Forwarding" Value="JA Forwarding" />
-                                        <asp:ListItem Text="Otra" Value="Otra" />
+                                    <asp:DropDownList class="form-control" ID="listaempresa" runat="server" >
+                                        <asp:ListItem Text="Cepesmar" Value="Cepesmar" />                                    
                                     </asp:DropDownList>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label>Puesto</label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox8"
-                                        runat="server" placeholder="Puesto"></asp:TextBox>
-                                </div>
-                            </div>
 
-                            <div class="col-md-2">
+
+                            <div class="col-md-6">
                                 <label>SLA</label>
                                 <div class="form-group">
-                                    <asp:DropDownList class="form-control" ID="DropDownList2" runat="server">
+                                    <asp:DropDownList class="form-control" ID="listaSla" runat="server">
 
                                         <asp:ListItem Text="1" Value="1" />
                                         <asp:ListItem Text="2" Value="2" />
@@ -115,47 +108,45 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col text-center">
-                                <span class="badge badge-pill badge-primary align-middle">Credenciales</span>
-                                <br/> <br/>
+                            <div class="col-md-12">
+                                <label>Puesto</label>
+                                <div class="form-group">
+                                    <asp:DropDownList class="form-control" ID="listaPuesto" runat="server">
+                                        <asp:ListItem Text="Cepesmar" Value="Cepesmar" />
+                                    </asp:DropDownList>
+                                </div>
                             </div>
                         </div>
 
 
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <label>ID</label>
-                                <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox1"
-                                        runat="server" placeholder="ID"></asp:TextBox>
-                                </div>
-                                </div>
-                            <div class="col-md-6">
+
+                            <div class="col-md-12">
                                 <label>Contraseña</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2"
+                                    <asp:TextBox CssClass="form-control" ID="contrasena"
                                         runat="server" placeholder="Contraseña" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="form-group">
-                                    <asp:Button ID="Button1"
+                                    <asp:Button ID="continuar"
                                         runat="server"
-                                        Text="Continuar"
-                                        CssClass="btn btn-primary btn-block btn-lg btn-2b399b" />
+                                        Text="Guardar"
+                                        CssClass="btn btn-primary btn-block btn-lg btn-2b399b" OnClick="Button1_Click" />
                                 </div>
                             </div>
 
+                        </div>
                     </div>
-                </div>
 
-                <a href="homepage.aspx"><< Regresar al Inicio</a><br>
-                <br />
+                    <a href="InicioAgente.aspx"><< Regresar al Inicio</a><br>
+                    <br />
+                </div>
             </div>
         </div>
     </div>
-
-       </asp:Content>
+</asp:Content>
