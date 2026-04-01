@@ -21,9 +21,7 @@ namespace HelpDesk
             if (string.IsNullOrWhiteSpace(sev)) return 4; // Normal
             sev = sev.Trim().ToLowerInvariant();
             switch (sev)
-            {
-                case "critico":
-                case "crítico":
+            { 
                 case "critíco":
                     return 1;
                 case "muy urgente":

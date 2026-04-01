@@ -277,52 +277,94 @@
                                   </div>
                                 </div>
                                 <center>
-                                    <h3>Todos los Tickets</h3>
-
+                                    <h3 class="mb-4">Todos los Tickets</h3>
                                 </center>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control" placeholder="Buscar por asunto o descripción" aria-label="Buscar"></asp:TextBox>
-                            </div>
-                            <div class="col-md-2">
-                                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Buscar" OnClick="btnSearch_Click" />
-                            </div>
-                            <div class="col-md-2 text-right">
-                                <asp:Button ID="btnClear" runat="server" CssClass="btn btn-secondary" Text="Limpiar" OnClick="btnClear_Click" />
+                        <!-- Search Section -->
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="card border-light">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control form-control-lg" placeholder="Buscar por asunto o descripción..." aria-label="Buscar"></asp:TextBox>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <asp:Button ID="btnSearch" runat="server" CssClass="btn btn-primary btn-block" Text="Buscar" OnClick="btnSearch_Click" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <asp:Button ID="btnClear" runat="server" CssClass="btn btn-secondary btn-block" Text="Limpiar Todo" OnClick="btnClear_Click" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Advanced Filters Section -->
                         <div class="row mb-3">
-                            <div class="col-md-3">
-                                <label for="txtFechaFrom" class="form-label">Fecha Desde:</label>
-                                <asp:TextBox ID="txtFechaFrom" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha desde"></asp:TextBox>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="txtFechaTo" class="form-label">Fecha Hasta:</label>
-                                <asp:TextBox ID="txtFechaTo" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha hasta"></asp:TextBox>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="lbEstatus" class="form-label">Estados (Multiselección):</label>
-                                <asp:ListBox ID="lbEstatus" runat="server" CssClass="form-control" SelectionMode="Multiple" Rows="5">
-                                    <asp:ListItem Text="Nuevo" Value="1" />
-                                    <asp:ListItem Text="Abierto" Value="2" />
-                                    <asp:ListItem Text="En Progreso" Value="3" />
-                                    <asp:ListItem Text="En Espera" Value="4" />
-                                    <asp:ListItem Text="Escalado" Value="5" />
-                                    <asp:ListItem Text="Resuelto" Value="6" />
-                                    <asp:ListItem Text="Cerrado" Value="7" />
-                                    <asp:ListItem Text="Reabierto" Value="8" />
-                                    <asp:ListItem Text="Cancelado" Value="9" />
-                                </asp:ListBox>
-                                <small class="form-text text-muted d-block mt-1">Ctrl+Click para multi-selección</small>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">&nbsp;</label>
-                                <div>
-                                    <asp:Button ID="btnApplyFilters" runat="server" CssClass="btn btn-info btn-block" Text="Aplicar Filtros" OnClick="btnApplyFilters_Click" />
+                            <div class="col">
+                                <div class="card border-light">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">
+                                            <i class="fas fa-filter"></i> Filtros Avanzados
+                                        </h6>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <!-- Date From -->
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="txtFechaFrom" class="form-label font-weight-bold">Desde:</label>
+                                                    <asp:TextBox ID="txtFechaFrom" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha desde"></asp:TextBox>
+                                                    <small class="form-text text-muted">Fecha inicial</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Date To -->
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="txtFechaTo" class="form-label font-weight-bold">Hasta:</label>
+                                                    <asp:TextBox ID="txtFechaTo" runat="server" CssClass="form-control" TextMode="Date" aria-label="Fecha hasta"></asp:TextBox>
+                                                    <small class="form-text text-muted">Fecha final</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Status Filter -->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="lbEstatus" class="form-label font-weight-bold">Estados:</label>
+                                                    <asp:ListBox ID="lbEstatus" runat="server" CssClass="form-control" SelectionMode="Multiple" Rows="4">
+                                                        <asp:ListItem Text="Nuevo" Value="1" />
+                                                        <asp:ListItem Text="Abierto" Value="2" />
+                                                        <asp:ListItem Text="En Progreso" Value="3" />
+                                                        <asp:ListItem Text="En Espera" Value="4" />
+                                                        <asp:ListItem Text="Escalado" Value="5" />
+                                                        <asp:ListItem Text="Resuelto" Value="6" />
+                                                        <asp:ListItem Text="Cerrado" Value="7" />
+                                                        <asp:ListItem Text="Reabierto" Value="8" />
+                                                        <asp:ListItem Text="Cancelado" Value="9" />
+                                                    </asp:ListBox>
+                                                    <small class="form-text text-muted d-block mt-2">
+                                                        <kbd>Ctrl</kbd>+<kbd>Click</kbd> para seleccionar múltiples
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Apply Button -->
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label">&nbsp;</label>
+                                                    <asp:Button ID="btnApplyFilters" runat="server" CssClass="btn btn-info btn-block" Text="Aplicar" OnClick="btnApplyFilters_Click" />
+                                                    <small class="form-text text-muted d-block mt-2 text-center">
+                                                        Aplicar todos los filtros
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -339,7 +381,12 @@
                                     <AlternatingRowStyle BackColor="White" />
                                     <Columns>
                                         <asp:BoundField DataField="TicketId" HeaderText="TicketId" InsertVisible="False" ReadOnly="True" SortExpression="TicketId" />
-                                        <asp:BoundField DataField="Prioridad" HeaderText="Prioridad" SortExpression="Prioridad" />
+                                        <asp:TemplateField HeaderText="Prioridad" SortExpression="Prioridad">
+                                            <ItemTemplate>
+                                                <%# GetPriorityLabel(Eval("Prioridad")) %>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="UsuarioNombre" HeaderText="Nombre Usuario" SortExpression="UsuarioNombre" ReadOnly="True" />
                                         <asp:TemplateField HeaderText="Fecha Creación" SortExpression="CreadoUtc">
                                             <ItemTemplate>

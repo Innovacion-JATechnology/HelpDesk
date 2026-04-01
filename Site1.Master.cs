@@ -49,14 +49,28 @@ namespace HelpDesk
                     linkIngreso.Visible = false;     // user login link button
                     linkSalir.Visible = true;      // logout link button
                     linkHola.Visible = true;       // hello user link button
-                    linkHola.Text = "agente: " + Session["fullname"];
+                    linkHola.Text = "Agente: " + Session["fullname"];
 
                     linkAdministrador.Visible = false; // admin login link button
                     linkMantenimiento.Visible = true;
                     linkCatalogo.Visible = true; // member management link button
                     linkHistorial.Visible = true; // ticket management link button
                     linkRegistro.Visible = true; // registro link button
-                    AgregarAgente.Visible = true;
+                    AgregarAgente.Visible = false;
+                }
+                else if (Session["role"].Equals("admin"))
+                {
+                    linkIngreso.Visible = false;     // user login link button
+                    linkSalir.Visible = true;      // logout link button
+                    linkHola.Visible = true;       // hello user link button
+                    linkHola.Text = "Admin: " + Session["fullname"];
+
+                    linkAdministrador.Visible = false; // admin login link button
+                    linkMantenimiento.Visible = true;
+                    linkCatalogo.Visible = true; // member management link button
+                    linkHistorial.Visible = true; // ticket management link button
+                    linkRegistro.Visible = true; // registro link button
+                    AgregarAgente.Visible = true;  // Solo admins pueden agregar agentes
                 }
             }
             catch (Exception ex)

@@ -41,7 +41,8 @@ namespace HelpDesk
                         nombre,
                         passwordHash,
                         passwordSalt,
-                        nivel
+                        nivel,
+                        Administrador
                     FROM hd.Agente
                     WHERE email = @Email;
                 ", con))
@@ -80,10 +81,14 @@ namespace HelpDesk
                                 return;
                             }
 
-                            // Autenticación OK → setear sesión
+                            // Determinar rol basado en la columna Administrador
+                            var isAdmin = rdr["Administrador"] != DBNull.Value && Convert.ToInt32(rdr["Administrador"]) == 1;
+                            string role = isAdmin ? "admin" : "agente";
+
+                            // Autenticación OK → setear sesión con rol asignado
                             Session["username"] = rdr["email"].ToString();   // correo del agente
                             Session["fullname"] = rdr["nombre"].ToString();  // nombre del agente
-                            Session["role"] = "agente";                  // ← rol de agente
+                            Session["role"] = role;                          // "admin" o "agente"
                             Session["agentid"] = rdr["agenteId"].ToString();
                             Session["nivel"] = rdr["nivel"].ToString();
 
@@ -91,7 +96,7 @@ namespace HelpDesk
                             Session["ID"] = rdr["agenteId"].ToString();
 
                             Response.Redirect("InicioAgente.aspx", false);
-                            Logger.RegistrarInfo($"Agente '{userEmail}' inició sesión exitosamente.");
+                            Logger.RegistrarInfo($"{role.ToUpper()} '{userEmail}' inició sesión exitosamente.");
                         }
                     }
                 }

@@ -103,6 +103,23 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    <asp:CheckBox ID="chkAdministrador" runat="server" CssClass="form-check-input" />
+                                    <label class="form-check-label" for="<%= chkAdministrador.ClientID %>">
+                                        ¿Es Administrador?
+                                    </label>
+                                    <small class="form-text text-muted d-block mt-1">
+                                        Los administradores pueden gestionar agentes y acceder al panel administrativo.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
                             <div class="col">
                                 <div class="form-group">
                                     <asp:Button ID="continuar"

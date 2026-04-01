@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h3>Ingreso de Administrador</h3>
+                                    <h3>Ingreso de Agente</h3>
                                 </center>
                             </div>
                         </div>
@@ -39,10 +39,10 @@
 
                         <div class="row">
                             <div class="col">
-                                <label>Administrador</label>
+                                <label>Correo Electrónico</label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="administrador"
-                                        runat="server" placeholder="Administrador"></asp:TextBox>
+                                        runat="server" placeholder="Correo Electrónico"></asp:TextBox>
                                 </div>
 
                               

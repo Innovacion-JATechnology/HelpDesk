@@ -86,10 +86,10 @@ namespace HelpDesk
                     // 2) Insertar el nuevo agente
                     using (var cmd = new SqlCommand(@"
                         INSERT INTO hd.Agente
-                            (email, nombre, passwordHash, nivel, tAbiertos, telefono, habilidades, passwordSalt)
+                            (email, nombre, passwordHash, nivel, tAbiertos, telefono, habilidades, passwordSalt, Administrador)
                         OUTPUT INSERTED.agenteId
                         VALUES
-                            (@Email, @Nombre, @PasswordHash, @Nivel, @TAbiertos, @Telefono, @Habilidades, @PasswordSalt);
+                            (@Email, @Nombre, @PasswordHash, @Nivel, @TAbiertos, @Telefono, @Habilidades, @PasswordSalt, @Administrador);
                     ", con))
                     {
                         cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 320).Value = email;
@@ -103,10 +103,11 @@ namespace HelpDesk
                         cmd.Parameters.Add("@Habilidades", SqlDbType.NVarChar, -1).Value =
                             (object)(string.IsNullOrWhiteSpace(habilidades) ? null : habilidades) ?? DBNull.Value;
                         cmd.Parameters.Add("@PasswordSalt", SqlDbType.VarBinary, 16).Value = salt;
+                        cmd.Parameters.Add("@Administrador", SqlDbType.Int).Value = chkAdministrador.Checked ? 1 : 0;
 
                         var insertedIdObj = cmd.ExecuteScalar();
                         insertedId = insertedIdObj == null ? 0 : Convert.ToInt32(insertedIdObj);
-                         
+
                         if (insertedId <= 0)
                         {
                             ShowClientMessage("No se pudo crear el agente.");

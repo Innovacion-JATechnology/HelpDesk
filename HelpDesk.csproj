@@ -68,12 +68,10 @@
   </ItemGroup>
   <!-- Content / static files -->
   <ItemGroup>
-    <Content Include="00_COMIENZA_AQUI.txt" />
     <Content Include="ActualizaTablas.aspx" />
     <Content Include="AdminAllAgents.aspx" />
     <Content Include="adminAllTickets.aspx" />
     <Content Include="adminlogin.aspx" />
-    <Content Include="AGENTE_RESUELTO_CERRADO_CORREGIDO.txt" />
     <Content Include="agregarAgente.aspx" />
     <Content Include="allUsers.aspx" />
     <Content Include="bootstrap\css\bootstrap.min.css" />
@@ -85,13 +83,8 @@
     <Content Include="Database\helpDeskScripts.sql" />
     <Content Include="datatables\css\dataTables.dataTables.min.css" />
     <Content Include="datatables\js\dataTables.min.js" />
-    <Content Include="ERROR_CORREGIDO.txt" />
-    <Content Include="ESTADOS_TABLA_CORREGIDOS.txt" />
-    <Content Include="ESTADO_6_CORREGIDO.txt" />
-    <Content Include="ESTATUS_CORREGIDO.txt" />
     <Content Include="Global.asax" />
     <Content Include="homepage.aspx" />
-    <Content Include="HOVER_TEXTOS_CORREGIDO.txt" />
     <Content Include="imgs\aacesoRestringido.png" />
     <Content Include="imgs\admin.png" />
     <Content Include="imgs\agente.png" />
@@ -113,7 +106,6 @@
     <Content Include="imgs\preferencias.png" />
     <Content Include="imgs\verAgentes.png" />
     <Content Include="imgs\working.png" />
-    <Content Include="IMPLEMENTATION_SUMMARY.txt" />
     <Content Include="InicioAgente.aspx" />
     <Content Include="InicioUsuario.aspx" />
     <Content Include="inventory\bitacora.png" />
@@ -123,14 +115,10 @@
     <Content Include="misAgentes.aspx" />
     <Content Include="misTickets.aspx" />
     <Content Include="Properties\admin.png" />
-    <Content Include="QUICK_START.txt" />
-    <Content Include="README_FINAL.txt" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="SQL_REFERENCE.sql" />
     <Content Include="userlogin.aspx" />
     <Content Include="usersignup.aspx" />
-    <Content Include="VERIFICATION_CHECKLIST.txt" />
     <Content Include="Web.config" />
     <Content Include="crearTicket.aspx" />
     <Content Include="enConstruccion.aspx" />
@@ -304,20 +292,7 @@
   <!-- Removed: <None Include="packages.config" /> -->
   <ItemGroup>
     <Content Include="Site1.Master" />
-    <Content Include="LOGGING.md" />
-    <Content Include="CAMBIOS_LOGGING.md" />
-    <Content Include="TICKET_STATUS_DOCUMENTATION.md" />
-    <Content Include="CONFIGURE_ROLES.md" />
-    <Content Include="FAQ.md" />
-    <Content Include="CAMBIOS_REALIZADOS.md" />
     <Content Include="INDEX.md" />
-    <Content Include="SOLUCION_SCRIPTMANAGER.md" />
-    <Content Include="SOLUCION_ESTATUS_NO_SE_GUARDABA.md" />
-    <Content Include="SOLUCION_ESTADOS_MOSTRADOS_INCORRECTAMENTE.md" />
-    <Content Include="SOLUCION_ESTADO_6_RESUELTO.md" />
-    <Content Include="SOLUCION_AGENTE_RESUELTO_A_CERRADO.md" />
-    <Content Include="COLUMNA_ESTATUS_CON_COLORES.md" />
-    <Content Include="SOLUCION_HOVER_TEXTOS_UNIFORMES.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

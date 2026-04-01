@@ -134,7 +134,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <p>
                             <asp:LinkButton class="footerlinks" ID="linkAdministrador"
-                                runat="server" OnClick="LinkButton6_Click">Administrador</asp:LinkButton>
+                                runat="server" OnClick="LinkButton6_Click">Ingreso Agente</asp:LinkButton>
                             &nbsp;
                     <asp:LinkButton class="footerlinks" ID="linkCatalogo"
                         runat="server" OnClick="LinkButton12_Click">Ver usuarios</asp:LinkButton>

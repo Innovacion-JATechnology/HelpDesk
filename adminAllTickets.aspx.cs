@@ -630,5 +630,28 @@ WHERE agenteId = @id";
 
             return "";
         }
+
+        /// <summary>
+        /// Convierte un número de prioridad a su etiqueta legible
+        /// </summary>
+        public string GetPriorityLabel(object priorityValue)
+        {
+            if (priorityValue == null || priorityValue == DBNull.Value)
+                return "Normal";
+
+            if (int.TryParse(priorityValue.ToString(), out int priority))
+            {
+                switch (priority)
+                {
+                    case 1: return "Crítico";
+                    case 2: return "Muy urgente";
+                    case 3: return "Urgente";
+                    case 4: return "Normal";
+                    case 5: return "Bajo";
+                    default: return "Normal";
+                }
+            }
+            return "Normal";
+        }
     }
 }
